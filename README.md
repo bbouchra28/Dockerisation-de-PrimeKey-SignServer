@@ -42,6 +42,7 @@ On se connecte sur MariaDB:
 Puis on crée la base de données signserver et on ajoute l'utilisateur signserver@localhost:
 
 `CREATE DATABASE signserver;`
+
 `GRANT ALL PRIVILEGES ON signserver.* TO signserver@localhost IDENTIFIED BY 'signserver';`
 
 ## Partie II : Installation Automatique
