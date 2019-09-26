@@ -65,6 +65,25 @@ et
 
 `/opt/SignServer/signserver-ce-5.0.0.Final/doc/sql-scripts/create-index-signserver.sql`
 
+### Installation et configuration de Wildfly 14
+
+On commence par télécharger Wildfly :
+
+`curl -o /opt/SignServer/wildfly-14.0.1.Final.zip -L https://download.jboss.org/wildfly/14.0.1.Final/wildfly-14.0.1.Final.zip`
+
+Ensuite on unzip l'archive:
+
+`unzip /opt/SignServer/wildfly-14.0.1.Final.zip`
+
+`cd /opt/SignServer/wildfly-14.0.1.Final`
+
+Et on démarre le serveur Wildfly:
+
+`./bin/standalone.sh`
+
+Dans ce tutorial, on utilise les paires de clés et certificats fournit par PrimeKey SignServer.
+
+Attention! Si vous utiliser SignServer en Prod vous devez utiliser vos propre Certificats et paires de clés !
 
 
 
