@@ -2,6 +2,15 @@
 
 ## Prépartion
 
+Prérequis dont on doit disposer avant de réaliser l'installation de PrimeKey SignServer CE:
+
+- Une machine virtuelle CentOS/Debian.
+- Docker
+- Docker-compose
+- Wildfly 14.0.1.Final
+- OpenJDK 8 ou Oracle Java 8
+- Base de données MariaDB
+
 ## Partie I : Installation Manuelle
 
 ## Partie II : Installation Automatique
