@@ -12,6 +12,8 @@ Prérequis dont on doit disposer avant de réaliser l'installation de PrimeKey S
 - Apache Ant
 - Base de données MariaDB
 - SignServer CE 5.0.0.Final
+- Répertoire SignServer dans /opt
+
 
 ## Partie I : Installation Manuelle
 
