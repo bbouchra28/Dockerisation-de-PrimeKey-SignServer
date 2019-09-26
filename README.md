@@ -57,7 +57,13 @@ Et puis on unzip le fichier :
 
 `unzip /opt/SignServer/signserver-ce-5.0.0.Final-bin.zip`
 
-Maintenant on exécute les deux scripts SQL qui se trouvent dans /opt/SignServer/signserver-ce-5.0.0.Final/doc/sql-scripts/create-tables-signserver-mysql.sql et /opt/SignServer/signserver-ce-5.0.0.Final/doc/sql-scripts/create-index-signserver.sql.
+Maintenant on exécute les deux scripts SQL qui se trouvent dans: 
+
+`/opt/SignServer/signserver-ce-5.0.0.Final/doc/sql-scripts/create-tables-signserver-mysql.sql`
+
+et 
+
+`/opt/SignServer/signserver-ce-5.0.0.Final/doc/sql-scripts/create-index-signserver.sql`
 
 
 
