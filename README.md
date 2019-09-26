@@ -9,9 +9,40 @@ Prérequis dont on doit disposer avant de réaliser l'installation de PrimeKey S
 - Docker-compose
 - Wildfly 14.0.1.Final
 - OpenJDK 8 ou Oracle Java 8
+- Apache Ant
 - Base de données MariaDB
+- SignServer CE 5.0.0.Final
 
 ## Partie I : Installation Manuelle
+
+### Installation de Java et Apache Ant
+
+Pour installer Java sur CentOS il suffit d'exécuter la commande suivante:
+
+`sudo yum install java-1.8.0-openjdk`
+
+Ensuite, on installe Apache Ant :
+
+`sudo yum install ant`
+
+### Installation et préparation de la base de données MariaDB
+
+Tout d'abord on commence par installer la base de données Mariadb :
+
+`sudo yum install mariadb mariadb-server`
+
+Ensuite on vérifie si la base de données est démarrée:
+
+`systemctl status mariadb`
+
+On se connecte sur MariaDB: 
+
+`mysql -u root`
+
+Puis on crée la base de données signserver et on ajoute l'utilisateur signserver@localhost:
+
+`CREATE DATABASE signserver;`
+`GRANT ALL PRIVILEGES ON signserver.* TO signserver@localhost IDENTIFIED BY 'signserver';`
 
 ## Partie II : Installation Automatique
 
