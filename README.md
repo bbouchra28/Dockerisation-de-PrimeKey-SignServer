@@ -1,9 +1,13 @@
-1. [ Description. ](#desc)
-
-
-<a name="desc"></a>
+1. [ Introduction. ](#intr)
+2. [ Préparation. ](#prp)
+3. [ Partie I Installation Manuelle. ](#man)
+4. [ Partie II Installation Automatique. ](#aut)
+5. [ Partie III Dockerisation. ](#doc)
+6. [ Exploitation. ](#exp)
+7. [ Conclusion. ](#cnc)
+<a name="intr"></a>
 ## Introduction
-
+<a name="prp"></a>
 ## Prépartion
 
 Prérequis dont on doit disposer avant de réaliser l'installation de PrimeKey SignServer CE:
@@ -18,7 +22,7 @@ Prérequis dont on doit disposer avant de réaliser l'installation de PrimeKey S
 - SignServer CE 5.0.0.Final
 - Répertoire SignServer dans /opt
 
-
+<a name="man"></a>
 ## Partie I : Installation Manuelle
 
 ### Installation de Java et Apache Ant
@@ -232,13 +236,17 @@ Configure la data source (Si vous utilisez une base de données sur une machine 
 `data-source add --name=signserverds --driver-name="mariadb-java-client.jar" --connection-url="jdbc:mysql://127.0.0.1:3306/signserver" --jndi-name="java:/SignServerDS" --use-ccm=true --driver-class="org.mariadb.jdbc.Driver" --user-name="signserver" --password="signserver" --validate-on-match=true --background-validation=false --prepared-statements-cache-size=50 --share-prepared-statements=true --min-pool-size=5 --max-pool-size=150 --pool-prefill=true --transaction-isolation=TRANSACTION_READ_COMMITTED --check-valid-connection-sql="select 1;" --enabled=true`
 
 `:reload`
-
+<a name="aut"></a>
 ## Partie II : Installation Automatique
 
+<a name="doc"></a>
 ## Partie III : Dockerisation
 
+<a name="exp"></a>
 ## Exploitation
 
+
+<a name="cnc"></a>
 ## Conclusion
 
 
