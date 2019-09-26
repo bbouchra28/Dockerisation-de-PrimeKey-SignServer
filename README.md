@@ -83,9 +83,25 @@ Et on démarre le serveur Wildfly:
 
 Dans ce tutorial, on utilise les paires de clés et certificats fournit par PrimeKey SignServer.
 
-Attention! Si vous utiliser SignServer en Prod vous devez utiliser vos propre Certificats et paires de clés !
+Attention! 
 
+Si vous utiliser SignServer en Prod vous devez utiliser vos propre certificats et paires de clés !
 
+On onfigure un HTTPS mutuel, donc on aura besoin d'un keystore et un truststore.
+
+On crée un répertoire Keystore pour stocker le magasin de clés TLS du serveur Web:
+
+`mkdir /opt/SignServer/wildfly-14.0.1.Final/standalone/configuration/keystore/`
+
+On copie le keystore (certificat et paire de clés):
+
+`cp /opt/SignServer/signserver-ce-5.0.0.Final/res/test/dss10/dss10_demo-tls.jks /opt/SignServer/wildfly-14.0.1.Final/standalone/configuration/keystore/keystore.jks`
+
+Puis le magasin de confiance:
+
+`cp /opt/SignServer/signserver-ce-5.0.0.Final/res/test/dss10/dss10_truststore.jks /opt/SignServer/wildfly-14.0.1.Final/standalone/configuration/keystore/truststore.jks`
+
+#### Configuration de TLS et HTTP
 
 ## Partie II : Installation Automatique
 
