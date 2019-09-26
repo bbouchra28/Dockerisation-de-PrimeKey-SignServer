@@ -219,6 +219,10 @@ Ajoutez le pilote de base de données MariaDB en le déployant à chaud dans le 
 
 `cp mariadb-java-client-2.1.0.jar /opt/SignServer/wildfly-14.0.1.Final/standalone/deployments/mariadb-java-client.jar`
 
+Démarrer le CLI JBOSS:
+
+`/opt/SignServer/wildfly-14.0.1.Final/bin/jboss-cli.sh -c`
+
 Configure la data source (Si vous utilisez une base de données sur une machine différente, vous devez changer l'addresse IP et le numéro de port):
 
 `data-source add --name=signserverds --driver-name="mariadb-java-client.jar" --connection-url="jdbc:mysql://127.0.0.1:3306/signserver" --jndi-name="java:/SignServerDS" --use-ccm=true --driver-class="org.mariadb.jdbc.Driver" --user-name="signserver" --password="signserver" --validate-on-match=true --background-validation=false --prepared-statements-cache-size=50 --share-prepared-statements=true --min-pool-size=5 --max-pool-size=150 --pool-prefill=true --transaction-isolation=TRANSACTION_READ_COMMITTED --check-valid-connection-sql="select 1;" --enabled=true`
