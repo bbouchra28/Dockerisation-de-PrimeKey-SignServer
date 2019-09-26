@@ -203,7 +203,7 @@ Quitter la CLI JBOSS.
 
 `curl -o /opt/SignServer/serializer-2.7.2.jar -L https://repo1.maven.org/maven2/xalan/serializer/2.7.2/serializer-2.7.2.jar`
 
-`cp /opt/SignServer/xalan-2.7.2.jar /opt/SignServer/serializer-2.7.2.jar ${APPSRV_HOME}/modules/system/layers/base/org/apache/xalan/main/`
+`cp /opt/SignServer/xalan-2.7.2.jar /opt/SignServer/serializer-2.7.2.jar /opt/SignServer/wildfly-14.0.1.Final/modules/system/layers/base/org/apache/xalan/main/`
 
 `sed -i 's/path="serializer-2.7.1.jbossorg-4.jar"/path="serializer-2.7.2.jar"/g' /opt/SignServer/wildfly-14.0.1.Final/modules/system/layers/base/org/apache/xalan/main/module.xml`
 
