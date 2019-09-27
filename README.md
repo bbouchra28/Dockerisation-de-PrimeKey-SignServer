@@ -274,6 +274,26 @@ Enfin on test si SignServer a été déployer correctement:
 <a name="aut"></a>
 ## Partie II : Installation Automatique
 
+Maintenant qu'on a installé SignServer manuellement passons à l'étape suivante et automatisons l'ensemble du processus.
+
+On aura besoin de définir les variables suivantes:
+
+
+Et les fonctions bash suivantes:
+
+- init_mariadb() 
+- create_mariadb_index()
+- wildfly_killall()
+- wildfly_exec()
+- wildfly_reload()
+- wildfly_check()
+- wildfly_keystore()
+- download()
+- config_wildfly()
+- deploy_signserver()
+
+
+
 <a name="doc"></a>
 ## Partie III : Dockerisation
 
