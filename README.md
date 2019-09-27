@@ -238,6 +238,38 @@ Configure la data source (Si vous utilisez une base de données sur une machine 
 `data-source add --name=signserverds --driver-name="mariadb-java-client.jar" --connection-url="jdbc:mysql://127.0.0.1:3306/signserver" --jndi-name="java:/SignServerDS" --use-ccm=true --driver-class="org.mariadb.jdbc.Driver" --user-name="signserver" --password="signserver" --validate-on-match=true --background-validation=false --prepared-statements-cache-size=50 --share-prepared-statements=true --min-pool-size=5 --max-pool-size=150 --pool-prefill=true --transaction-isolation=TRANSACTION_READ_COMMITTED --check-valid-connection-sql="select 1;" --enabled=true`
 
 `:reload`
+
+### Installation de SignServer
+
+Dans cette étape on installe SignServer CE, on commence par la définition des variables d'environnement de notre bash shell.
+
+`export APPSRV_HOME=/opt/SignServer/wildfly-14.0.1.Final`
+
+`export SIGNSERVER_NODEID=node1`
+
+Puis on prépare les fichiers de configuration:
+
+`cd /opt/SignServer/signserver-ce-5.0.0.Final`
+
+Pour ce tuto, on va utiliser la configuration par défaut fournit par PrimeKey (vous pouvez modifier la configuration selon vos besoins).
+
+`cp conf/server_deploy.properties.sample conf/signserver_deploy.properties`
+
+On déploie le SignServer sur le serveur WildFly
+
+`bin/ant deploy`
+
+On vérifier que signserver.ear.deployed
+
+`ls /opt/wildfly/standalone/deployments | grep signserver.ear*`
+
+Enfin on test si SignServer a été déployer correctement:
+
+`bin/signserver getstatus brief all`
+
+`Current version of server is: SignServer CE 5.0.0`
+
+
 <a name="aut"></a>
 ## Partie II : Installation Automatique
 
