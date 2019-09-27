@@ -291,7 +291,7 @@ On aura besoin de créer les fonctions bash suivantes:
 
 Le script est disponible sur:
 
-https://github.com/bbouchra28/Dockerisation-de-PrimeKey-SignServer/blob/master/signserver_install.sh
+[Link](https://github.com/bbouchra28/Dockerisation-de-PrimeKey-SignServer/blob/master/signserver_install.sh)
 
 Pour l'utiliser:
 
