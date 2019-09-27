@@ -276,21 +276,19 @@ Enfin on test si SignServer a été déployer correctement:
 
 Maintenant qu'on a installé SignServer manuellement passons à l'étape suivante et automatisons l'ensemble du processus.
 
-On aura besoin de définir les variables suivantes:
+On aura besoin de créer les fonctions bash suivantes:
 
+- init_mariadb()         : Supprime les tables de SignServer de la base de données.
+- create_mariadb_index() : Crée les tables nécessaire pour le fonctionnement de SignServer.
+- wildfly_killall()      : Cette fonction est violente, elle sert a arrêter tout les processus de WildFly. 
+- wildfly_exec()         : Execute les commande de WildFly.
+- wildfly_reload()       : Redémarre WildFly.
+- wildfly_check()        : Vérifie si WildFly est démarré correctement.
+- wildfly_keystore()     : Créer le répertoire Keystore et copie dedans le keystore.jks et le magasin de confiance truststore.jks.
+- download()             : Télécharge SignServer, WildFly, Pilote MariaDB, le JAR XALAN et SERIALIZER.
+- config_wildfly()       : Configure TLS, HTTP, Emplacement WSDL, Encodage URI et la base de données.
+- deploy_signserver()    : Déploie SignServer.
 
-Et les fonctions bash suivantes:
-
-- init_mariadb() 
-- create_mariadb_index()
-- wildfly_killall()
-- wildfly_exec()
-- wildfly_reload()
-- wildfly_check()
-- wildfly_keystore()
-- download()
-- config_wildfly()
-- deploy_signserver()
 
 
 
