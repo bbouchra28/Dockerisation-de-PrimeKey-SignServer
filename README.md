@@ -289,9 +289,7 @@ On aura besoin de créer les fonctions bash suivantes:
 - **config_wildfly()**       : Configure TLS, HTTP, Emplacement WSDL, Encodage URI et la base de données.
 - **deploy_signserver()**    : Déploie SignServer.
 
-Le script est disponible sur:
-
-[Link](https://github.com/bbouchra28/Dockerisation-de-PrimeKey-SignServer/blob/master/signserver_install.sh)
+Le script est disponible sur [ce lien](https://github.com/bbouchra28/Dockerisation-de-PrimeKey-SignServer/blob/master/signserver_install.sh)
 
 Pour l'utiliser:
 
