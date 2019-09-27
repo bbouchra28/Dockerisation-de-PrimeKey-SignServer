@@ -1,5 +1,5 @@
 #!/bin/bash
-# Full path to where we run the script, which will be where we unpack and install software
+
 
 
 usage(){
@@ -33,15 +33,15 @@ WILDFLY_DOWNLOAD_URL=https://download.jboss.org/wildfly/${WILDFLY_VERSION}/${WIL
 
 MARIADB_CONNECTOR_VERSION="2.1.0"
 MARIADB_DOWNLOAD_URL="https://downloads.mariadb.com/Connectors/java/connector-java-2.1.0/mariadb-java-client-2.1.0.jar"
-MARIADB_DOWNLOAD_SHA256="d214b312096c1a07af3344daf39b987304b43383d04d501e4525a956acea44ba"
+MARIADB_DOWNLOAD_SHA256="562b8d4ab93de9b67baa7bed223741e8a7fed3d239bbb9eb377338d85dce8578"
 
 XALAN_VERSION="2.7.2"
 XALAN_DOWNLOAD_URL="https://repo1.maven.org/maven2/xalan/xalan/2.7.2/xalan-2.7.2.jar"
-XALAN_DOWNLOAD_SHA256="d214b312096c1a07af3344daf39b987304b43383d04d501e4525a956acea44ba"
+XALAN_DOWNLOAD_SHA256="a44bd80e82cb0f4cfac0dac8575746223802514e3cec9dc75235bc0de646af14"
 
 SERIALIZER_VERSION="2.7.2"
 SERIALIZER_DOWNLOAD_URL="https://repo1.maven.org/maven2/xalan/serializer/2.7.2/serializer-2.7.2.jar"
-SERIALIZER_DOWNLOAD_SHA256="d214b312096c1a07af3344daf39b987304b43383d04d501e4525a956acea44ba"
+SERIALIZER_DOWNLOAD_SHA256="e8f5b4340d3b12a0cfa44ac2db4be4e0639e479ae847df04c4ed8b521734bb4a"
 
 SIGNSERVER_VERSION="5.0.0.Final"
 SIGNSERVER_DOWNLOAD_URL="https://downloads.sourceforge.net/project/signserver/signserver/5.0/signserver-ce-5.0.0.Final-bin.zip?r=https%3A%2F%2Fsourceforge.net%2Fprojects%2Fsignserver%2Ffiles%2Fsignserver%2F5.0%2Fsignserver-ce-5.0.0.Final-bin.zip%2Fdownload&ts=1569613365" 
@@ -55,19 +55,17 @@ SIGNSERVER_DIR="signserver-ce-${SIGNSERVER_VERSION}"
 init_mariadb() {
 
 	cd $INSTALL_DIRECTORY ||exit 1
-	cat signserver-ce-5.0.0.Final/doc/sql-scripts/drop-tables-signserver-mysql.sql | mysql --host=${database_host} --protocol=tcp --port=${database_port} --user=${database_username} --database=${database_name} --password=${database_password}
+	cat signserver/doc/sql-scripts/drop-tables-signserver-mysql.sql | mysql --host=${database_host} --protocol=tcp --port=${database_port} --user=${database_username} --database=${database_name} --password=${database_password}
 
 }
 
 create_mariadb_index() {
 
   cd $INSTALL_DIRECTORY || exit 1
-  cat signserver-ce-5.0.0.Final/doc/sql-scripts/create-tables-signserver-mysql.sql | mysql --host=${database_host} --protocol=tcp --port=3306 --user=${database_username} --database=${database_name} --password=${database_password}
-  cat signserver-ce-5.0.0.Final/doc/sql-scripts/create-index-signserver.sql | mysql --host=${database_host} --protocol=tcp --port=3306 --user=${database_username} --database=${database_name} --password=${database_password}
+  cat signserver/doc/sql-scripts/create-tables-signserver-mysql.sql | mysql --host=${database_host} --protocol=tcp --port=3306 --user=${database_username} --database=${database_name} --password=${database_password}
+  cat signserver/doc/sql-scripts/create-index-signserver.sql | mysql --host=${database_host} --protocol=tcp --port=3306 --user=${database_username} --database=${database_name} --password=${database_password}
 
 }
-
-
 
 wildfly_killall() {
   pidof java > /dev/null 2> /dev/null
@@ -77,23 +75,19 @@ wildfly_killall() {
   fi
 }
 
-
 wildfly_exec() {
   wildfly/bin/jboss-cli.sh --connect "$1"
 }
-
 
 wildfly_shutdown() {
   cd $INSTALL_DIRECTORY || exit 1
   wildfly/bin/jboss-cli.sh --connect command=:shutdown
 }
 
-
 wildfly_reload() {
   cd $INSTALL_DIRECTORY || exit 1
   wildfly/bin/jboss-cli.sh --connect command=:reload
 }
-
 
 wildfly_check() {
   DURATION_SECONDS=30
@@ -126,13 +120,14 @@ wildfly_keystore(){
 wildfly_enable_ajp() {
   wildfly/bin/jboss-cli.sh --connect "/subsystem=undertow/server=default-server/ajp-listener=ajp-listener:add(socket-binding=ajp, scheme=https, enabled=true)"
 }
+
 download(){
 
   if [ ! -d Download ]; then
     mkdir Download
   fi
 
-  echo										#Telecharge wildlfy
+  echo									
   echo "Downloading(if needed) and unpacking WildFly"
   if [ ! -f Download/${WILDFLY_TAR} ]; then
     cd Download
@@ -152,8 +147,8 @@ download(){
     cd Download
     echo "Downloading mariadb Java Connector to $(pwd)"
     curl -o mariadb-java-client-${MARIADB_CONNECTOR_VERSION}.jar -L ${MARIADB_DOWNLOAD_URL}
-    echo ${MARIADB_DOWNLOAD_SHA256} mariadb-${MARIADB_CONNECTOR_VERSION}.jar > mariadb-java-client-${MARIADB_CONNECTOR_VERSION}.jar.sha256
-    #sha256sum --check mariadb-${MARIADB_CONNECTOR_VERSION}.jar.sha256
+    echo ${MARIADB_DOWNLOAD_SHA256} mariadb-java-client-${MARIADB_CONNECTOR_VERSION}.jar > mariadb-java-client-${MARIADB_CONNECTOR_VERSION}.jar.sha256
+    sha256sum --check mariadb-java-client-${MARIADB_CONNECTOR_VERSION}.jar.sha256
     if [ $? -ne 0 ]; then
        echo "SHA256 for mariadb does not match"
        rm mariadb-java-client-${MARIADB_CONNECTOR_VERSION}.jar
@@ -167,9 +162,9 @@ download(){
     echo "Downloading xalan to $(pwd)"
     curl -o xalan-${XALAN_VERSION}.jar -L ${XALAN_DOWNLOAD_URL}
     echo ${XALAN_DOWNLOAD_SHA256} xalan-${XALAN_VERSION}.jar > xalan-${XALAN_VERSION}.jar.sha256
-    #sha256sum --check mariadb-${MARIADB_CONNECTOR_VERSION}.jar.sha256
+    sha256sum --check xalan-${XALAN_VERSION}.jar.sha256
     if [ $? -ne 0 ]; then
-       echo "SHA256 for mariadb does not match"
+       echo "SHA256 for XALAN does not match"
        rm xalan-${XALAN_VERSION}.jar
        exit 1
     fi
@@ -179,11 +174,11 @@ download(){
   if [ ! -f Download/serializer-${SERIALIZER_VERSION}.jar ]; then
     cd Download
     echo "Downloading seriliazer to $(pwd)"
-    curl -o serializer-${SERIALIZER_VERSION}.jar -L ${XALAN_DOWNLOAD_URL}
+    curl -o serializer-${SERIALIZER_VERSION}.jar -L ${SERIALIZER_DOWNLOAD_URL}
     echo ${SERIALIZER_DOWNLOAD_SHA256} serializer-${SERIALIZER_VERSION}.jar > serializer-${SERIALIZER_VERSION}.jar.sha256
-    #sha256sum --check mariadb-${MARIADB_CONNECTOR_VERSION}.jar.sha256
+    sha256sum --check serializer-${SERIALIZER_VERSION}.jar.sha256
     if [ $? -ne 0 ]; then
-       echo "SHA256 for mariadb does not match"
+       echo "SHA256 for Seriliazer does not match"
        rm serializer-${SERIALIZER_VERSION}.jar
        exit 1
     fi
@@ -195,7 +190,7 @@ download(){
     echo "Downloading SIGNSERVER to $(pwd)"
     curl -o ${SIGNSERVER_TAR} -L ${SIGNSERVER_DOWNLOAD_URL}
     echo ${SIGNSERVER_TAR_SHA256} ${SIGNSERVER_TAR} > ${SIGNSERVER_TAR}.sha256
-    #sha256sum --check ${SIGNSERVER_TAR}.sha256
+    sha256sum --check ${SIGNSERVER_TAR}.sha256
     if [ $? -ne 0 ]; then
        echo "SHA256 for SignServer does not match"
        rm ${SIGNSERVER_TAR}
@@ -208,6 +203,7 @@ download(){
 }
 
 config_wildfly(){
+  
   wildfly_killall
 
   cd $INSTALL_DIRECTORY/wildfly/bin || exit 1
@@ -275,12 +271,11 @@ config_wildfly(){
   wildfly_exec '/system-property=org.apache.catalina.connector.USE_BODY_ENCODING_FOR_QUERY_STRING:add(value=true)'
   wildfly_exec ':reload'
 
-  echo " Copying XALAN and Serilizer annd Mariadb JAVA connector"
+  echo " Copying XALAN and Serializer annd Mariadb JAVA connector"
 
   cp $INSTALL_DIRECTORY/Download/xalan-2.7.2.jar $INSTALL_DIRECTORY/Download/serializer-2.7.2.jar $INSTALL_DIRECTORY/${WILDFLY_DIR}/modules/system/layers/base/org/apache/xalan/main/
   sed -i 's/path="serializer-2.7.1.jbossorg-4.jar"/path="serializer-2.7.2.jar"/g' $INSTALL_DIRECTORY/${WILDFLY_DIR}/modules/system/layers/base/org/apache/xalan/main/module.xml
   sed -i 's/path="xalan-2.7.1.jbossorg-4.jar"/path="xalan-2.7.2.jar"/g' $INSTALL_DIRECTORY/${WILDFLY_DIR}/modules/system/layers/base/org/apache/xalan/main/module.xml
-
 
 
 
@@ -303,28 +298,50 @@ deploy_signserver(){
 
 rm -rf "${WILDFLY_DIR}" > /dev/null 2> /dev/null
 
-
-
-
+echo "Downloading Wildfly, MariaDB Driver, Xalan, Serializer and SignServer"
+echo
+echo
 download
+
+echo "Extracting"
+echo
+echo
 
 tar xvf Download/${WILDFLY_TAR}
 if [ -h wildfly ]; then
   rm -f wildfly
-fi										#lien symbolique
+fi										
 ln -s "${WILDFLY_DIR}" wildfly
 
 unzip Download/${SIGNSERVER_TAR}
 if [ -h signserver-ce ]; then
   rm -f signserver-ce
 fi
-										#lien symbolique
+										
 ln -s "${SIGNSERVER_DIR}" signserver
 
+echo "Droping Database"
+echo
+echo
 init_mariadb
+
+echo "Preparing Database"
+echo
+echo
 create_mariadb_index
 
+echo "Deploying Keystore"
+echo
+echo
 wildfly_keystore
+
+echo "Wildfly Configuration"
+echo
+echo
 config_wildfly
+
+echo "Deploying SignServer CE"
+echo
+echo
 deploy_signserver
 
