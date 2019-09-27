@@ -1,12 +1,10 @@
 #!/bin/bash
 
 
-
 usage(){
         echo "Usage: ./signserver_install.sh database_host database_port  database_name database_user database_password"
 	exit 1
 }
-
 
 
 [[ $# -ne 5 ]] && usage
@@ -53,18 +51,14 @@ SIGNSERVER_DIR="signserver-ce-${SIGNSERVER_VERSION}"
 
 
 init_mariadb() {
-
 	cd $INSTALL_DIRECTORY ||exit 1
 	cat signserver/doc/sql-scripts/drop-tables-signserver-mysql.sql | mysql --host=${database_host} --protocol=tcp --port=${database_port} --user=${database_username} --database=${database_name} --password=${database_password}
-
 }
 
 create_mariadb_index() {
-
   cd $INSTALL_DIRECTORY || exit 1
   cat signserver/doc/sql-scripts/create-tables-signserver-mysql.sql | mysql --host=${database_host} --protocol=tcp --port=3306 --user=${database_username} --database=${database_name} --password=${database_password}
   cat signserver/doc/sql-scripts/create-index-signserver.sql | mysql --host=${database_host} --protocol=tcp --port=3306 --user=${database_username} --database=${database_name} --password=${database_password}
-
 }
 
 wildfly_killall() {
@@ -110,11 +104,9 @@ wildfly_check() {
 }
 
 wildfly_keystore(){
-
         mkdir $INSTALL_DIRECTORY/$WILDFLY_DIR/standalone/configuration/keystore/
         cp $INSTALL_DIRECTORY/signserver-ce-5.0.0.Final/res/test/dss10/dss10_demo-tls.jks $INSTALL_DIRECTORY/$WILDFLY_DIR/standalone/configuration/keystore/keystore.jks
         cp $INSTALL_DIRECTORY/signserver-ce-5.0.0.Final/res/test/dss10/dss10_truststore.jks $INSTALL_DIRECTORY/$WILDFLY_DIR/standalone/configuration/keystore/truststore.jks
-
 }
 
 wildfly_enable_ajp() {
@@ -122,7 +114,6 @@ wildfly_enable_ajp() {
 }
 
 download(){
-
   if [ ! -d Download ]; then
     mkdir Download
   fi
@@ -198,12 +189,9 @@ download(){
     fi
     cd ..
   fi
-
-
 }
 
 config_wildfly(){
-  
   wildfly_killall
 
   cd $INSTALL_DIRECTORY/wildfly/bin || exit 1
@@ -283,17 +271,11 @@ config_wildfly(){
   cp  $INSTALL_DIRECTORY/Download/mariadb-java-client-2.1.0.jar $INSTALL_DIRECTORY/${WILDFLY_DIR}/standalone/deployments/mariadb-java-client.jar
   wildfly_exec "data-source add --name=signserverds --driver-name=\"mariadb-java-client.jar\" --connection-url=\"jdbc:mysql://${database_host}:${database_port}/signserver\" --jndi-name=\"java:/SignServerDS\" --use-ccm=true --driver-class=\"org.mariadb.jdbc.Driver\" --user-name=\"signserver\" --password=\"signserver\" --validate-on-match=true --background-validation=false --prepared-statements-cache-size=50 --share-prepared-statements=true --min-pool-size=5 --max-pool-size=150 --pool-prefill=true --transaction-isolation=TRANSACTION_READ_COMMITTED --check-valid-connection-sql=\"select 1;\" --enabled=true"
   wildfly_exec ':reload'
-
 }
 
 deploy_signserver(){
-
   cp $INSTALL_DIRECTORY/signserver-ce-5.0.0.Final/conf/signserver_deploy.properties.sample $INSTALL_DIRECTORY/signserver-ce-5.0.0.Final/conf/signserver_deploy.properties
-
   $INSTALL_DIRECTORY/signserver-ce-5.0.0.Final/bin/ant deploy
-
-
-
 }
 
 rm -rf "${WILDFLY_DIR}" > /dev/null 2> /dev/null
