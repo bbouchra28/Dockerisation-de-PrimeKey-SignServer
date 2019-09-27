@@ -23,6 +23,7 @@ Prérequis dont on doit disposer avant de réaliser l'installation de PrimeKey S
 - Base de données MariaDB
 - SignServer CE 5.0.0.Final
 - Répertoire SignServer dans /opt
+- Un compte avec des privilèges Sudo
 
 <a name="man"></a>
 ## Partie I : Installation Manuelle
