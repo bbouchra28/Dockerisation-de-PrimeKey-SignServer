@@ -295,7 +295,7 @@ https://github.com/bbouchra28/Dockerisation-de-PrimeKey-SignServer/blob/master/s
 
 Pour l'utiliser:
 
-bash signserver_install.sh $database_host $database_port $database_name $database_username $database_password
+`bash signserver_install.sh $database_host $database_port $database_name $database_username $database_password`
 
 
 <a name="doc"></a>
