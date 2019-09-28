@@ -470,7 +470,7 @@ else:
    password = ""
 </pre>
 Les paramètres de la requête:
-</pre>
+<pre>
 params = {
 
                             'workerName': 'PDFSigner'       ,
@@ -555,7 +555,7 @@ parser.add_argument("--password" , help="mot de passe de pdf s'il est protégé"
 args = parser.parse_args()`
 
 Si le pdf n'est pas protégé on aura pas besoin de password:
-</pre>
+<pre>
 if [args.password]:
 
 	password = args.password
@@ -567,7 +567,7 @@ else:
 Ensuite, on définit le Worker : `worker="PDFSigner"`
 
 Puis, on récupère le fichier en binaire:
- </pre>
+ <pre>
  with open(args.pdf, "rb") as file:
 
      data = file.read()
