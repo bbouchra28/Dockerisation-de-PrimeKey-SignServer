@@ -394,6 +394,31 @@ Resultat : `Current version of server is : SignServer CE 5.0.0.Final`
 <a name="exp"></a>
 ## Exploitation
 
+### Configuration d'un Worker PDFSigner
+
+On se met à l'interieur du conteneur SignServer:
+
+`docker exec -it sign bash`
+
+Tout d'abord on configure un CryotoTokenP12  en utilisant l'exemple de fichier de configuration fournit par PrimeKey.
+
+`bin/signserver setproperties doc/sample-configs/keystore-crypto.properties`
+
+Ensuite on met à jour la propriété KEYSTOREPATH du CryptoToken pour qu'elle pointe vers un magasin de clés PKCS # 12 contenant les clés et le certificat appropriés pour la signature des documents (on utilise le p12 fournit par PrimeKey à des fins de test seulement)
+
+`bin/signserver setproperty 1 KEYSTOREPATH /opt/wildfly/res/test/dss10/dss10_keystore.p12`
+`bin/signserver setproperty 1 KEYSTOREPASSWORD foo123`
+`bin/signserver setproperty 1 DEFAULTKEY "signer00003"`
+`bin/signserver reload 1`
+
+Maintenant qu'on notre p12 en place, on passe à la configuration du Worker PDFSigner:
+
+`bin/signserver setproperties doc/sample-configs/pdfsigner.properties`
+
+### Création d'un client HTTP
+
+### Création d'un client SOAP
+
 
 <a name="cnc"></a>
 ## Conclusion
