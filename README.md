@@ -120,15 +120,15 @@ On démarre la CLI JBOSS (Assurer vous que votre Wildfly est démarré):
 
 On supprime les configurations TLS et HTTP existantes et on autorise la configuration du port 8443:
 
-`/subsystem=undertow/server=default-server/http-listener=default:remove
+`/subsystem=undertow/server=default-server/http-listener=default:remove`
 
-/subsystem=undertow/server=default-server/https-listener=https:remove
+`/subsystem=undertow/server=default-server/https-listener=https:remove`
 
-/socket-binding-group=standard-sockets/socket-binding=http:remove
+`/socket-binding-group=standard-sockets/socket-binding=http:remove`
 
-/socket-binding-group=standard-sockets/socket-binding=https:remove
+`/socket-binding-group=standard-sockets/socket-binding=https:remove`
 
-:reload`
+`:reload`
 
 On Configure les interfaces en utilisant l'adresse de liaison appropriée, dans ce tuto on utilise 0.0.0.0 ce qui rend Wildfly disponible pour tout le monde:
 
