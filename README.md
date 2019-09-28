@@ -317,6 +317,10 @@ De plus on crée un réseau 10.5.0.0/16, on attribue l'adresse 10.5.0.3 au conte
 
 Enfin nous avons un volume pour persister les données stocker sur mariadb.
 
+On lance la base de données avant de construire l'image:
+
+`docker-compose -f mariadb-compose.yml up -d`
+
 ### Dockerfile
 
 Pour le processus de dockerisation nous allons baser notre construction sur une image debian 9.7.
