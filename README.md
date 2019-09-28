@@ -530,9 +530,9 @@ Afin d'automatiser l'envoie des requête SOAP, on utilise la librarie python-zee
 
 On utilise les libraries suivantes:
 
-`from zeep import Client
+`from zeep import Client`
 
-import argparse`
+`import argparse`
 
 Donc on doit installer zeep:
 
@@ -543,8 +543,8 @@ Si vous n'avez pas pip3 :
 `apt install python3-pip`
 
 Ensuite on met les flags nécessaire:
-
-`parser = argparse.ArgumentParser() 
+<pre>
+parser = argparse.ArgumentParser() 
 
 parser.add_argument("--pdf" , help="Le fichier pdf a signer, chemin absolue")
 
@@ -552,8 +552,8 @@ parser.add_argument("--wsdl" , help="url vers SignServer")
 
 parser.add_argument("--password" , help="mot de passe de pdf s'il est protégé")
 
-args = parser.parse_args()`
-
+args = parser.parse_args()
+</pre>
 Si le pdf n'est pas protégé on aura pas besoin de password:
 <pre>
 if [args.password]:
