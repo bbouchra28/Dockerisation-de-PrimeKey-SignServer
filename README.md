@@ -508,25 +508,27 @@ On peut utilise le plugin chrome Wizdler pour voir les service disponibles, Sign
 
 On n'est pas intéressé par les e-passeport donc le service qui nous intéresse est ProcessData.
 
-`<Envelope xmlns="http://schemas.xmlsoap.org/soap/envelope/">`
 
-`    <Body>`
 
-`        <processData xmlns="http://clientws.signserver.org/">`
+`<Envelope xmlns="http://schemas.xmlsoap.org/soap/envelope/">
+    
+    <Body>
+    
+         <processData xmlns="http://clientws.signserver.org/">
+            
+            <worker xmlns="">[string?]</worker>
+            
+            <!-- Optional -->
+            
+            <metadata xmlns=""/>
+            
+            <data xmlns="">[base64Binary?]</data>
+        
+        </processData>
+    
+    </Body>
 
-`            <worker xmlns="">[string?]</worker>`
-
-`            <!-- Optional -->`
-
-`            <metadata xmlns=""/>`
-
-`            <data xmlns="">[base64Binary?]</data>`
-
-`        </processData>`
-
-`    </Body>`
-
-`</Envelope>`
+</Envelope>`
 
 
 
