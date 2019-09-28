@@ -366,6 +366,29 @@ l'objectif de cet script est d'intialiser le conteneur, il le fait comme suit :
 
 ## Lancement de conteneur SignServer
 
+Une fois la construction de l'image est fini, on peut maintenant l'utiliser pour lancer des conteneurs SignServer.
+
+Le fichier [signserver-compose.yml](https://github.com/bbouchra28/Dockerisation-de-PrimeKey-SignServer/blob/master/signserver-compose.yml) permet de lancer un conteneur SignServer sur l'adresse IP 10.5.0.3 avec les variables d'environnement nécessaires.
+
+Avant de lancer le conteneur SignServer, on doit assurer que notre base de données est live et disponible, pour être sure on peut faire `netstat/ss -ntlp` ou de re-exécuter la commande :
+
+`docker-compose -f mariadb-compose.yml up -d`
+
+Et puis on lance notre conteneur SignServer:
+
+`docker-compose -f SignServer.yml up -d`
+
+On vérifie les logs pour assurer que WildFly a été correctement démarré :
+
+`docker logs -f sign`
+
+Allons à l'intérieur du conteneur pour vérifier que tout marche bien :
+
+`docker exec -it sign bash`
+`cd signserver`
+`bin/signserver getsatus brief all`
+
+Resultat : `Current version of server is : SignServer CE 5.0.0.Final`
 
 
 <a name="exp"></a>
