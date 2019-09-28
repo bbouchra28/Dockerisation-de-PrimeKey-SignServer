@@ -518,23 +518,8 @@ On n'est pas intéressé par les e-passeport donc le service qui nous intéresse
 
 Voici un exemple de requête SOAP pour signer un pdf sur SignServer:
 
-`<Body>
-    
-         <processData xmlns="http://clientws.signserver.org/">
-            
-            <worker xmlns="">[string?]</worker>
-            
-            <!-- Optional -->
-            
-            <metadata xmlns=""/>
-            
-            <data xmlns="">[base64Binary?]</data>
-        
-        </processData>
-    
-    </Body>
-`
-n'oublier pas d'ajouter l'envelope avant le body <Envelope xmlns="http://schemas.xmlsoap.org/soap/envelope/">
+![SoapRequest](https://imgur.com/lVjvZbT)
+
 
 #### Python zeep
 
