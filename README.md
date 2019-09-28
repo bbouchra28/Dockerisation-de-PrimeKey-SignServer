@@ -516,11 +516,9 @@ On peut utilise le plugin chrome Wizdler pour voir les service disponibles, Sign
 
 On n'est pas intéressé par les e-passeport donc le service qui nous intéresse est ProcessData.
 
-Voici un exemple de requête SOAP pour signer un pdf.
+Voici un exemple de requête SOAP pour signer un pdf sur SignServer:
 
-`<Envelope xmlns="http://schemas.xmlsoap.org/soap/envelope/">
-    
-    <Body>
+`<Body>
     
          <processData xmlns="http://clientws.signserver.org/">
             
@@ -535,8 +533,8 @@ Voici un exemple de requête SOAP pour signer un pdf.
         </processData>
     
     </Body>
-
-</Envelope>`
+`
+n'oublier pas d'ajouter l'envelope avant le body <Envelope xmlns="http://schemas.xmlsoap.org/soap/envelope/">
 
 #### Python zeep
 
