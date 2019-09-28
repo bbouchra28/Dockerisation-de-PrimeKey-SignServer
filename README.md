@@ -413,14 +413,15 @@ Tout d'abord on configure un CryotoTokenP12  en utilisant l'exemple de fichier d
 `bin/signserver setproperties doc/sample-configs/keystore-crypto.properties`
 
 Ensuite on met à jour la propriété KEYSTOREPATH du CryptoToken pour qu'elle pointe vers un magasin de clés PKCS # 12 contenant les clés et le certificat appropriés pour la signature des documents (on utilise le p12 fournit par PrimeKey à des fins de test seulement)
+<pre>
+bin/signserver setproperty 1 KEYSTOREPATH /opt/wildfly/res/test/dss10/dss10_keystore.p12
 
-`bin/signserver setproperty 1 KEYSTOREPATH /opt/wildfly/res/test/dss10/dss10_keystore.p12`
+bin/signserver setproperty 1 KEYSTOREPASSWORD foo123
 
-`bin/signserver setproperty 1 KEYSTOREPASSWORD foo123`
+bin/signserver setproperty 1 DEFAULTKEY "signer00003"
 
-`bin/signserver setproperty 1 DEFAULTKEY "signer00003"`
-
-`bin/signserver reload 1`
+bin/signserver reload 1
+</pre>
 
 Maintenant qu'on notre p12 en place, on passe à la configuration du Worker PDFSigner:
 
@@ -439,25 +440,25 @@ Enfin on test que tout les Worker sont up and running:
 Dans cette partie on utilise python3 pour envoyer une requête http contenant un pdf à signer au SignServer.
 
 On utilise les libs suivantes:
+<pre>
+import requests
 
-`import requests`
-
-`import argparse`
-
+import argparse
+</pre>
 On définit les flags (`--pdf`, `--host`, `--password`, `--worker`):
+<pre>
+parser = argparse.ArgumentParser()
 
-`parser = argparse.ArgumentParser()`
+parser.add_argument("--pdf" , help="Le fichier pdf a signer, chemin absolue")
 
-`parser.add_argument("--pdf" , help="Le fichier pdf a signer, chemin absolue")`
+parser.add_argument("--host" , help="url vers SignServer")
 
-`parser.add_argument("--host" , help="url vers SignServer")`
+parser.add_argument("--password" , help="mot de passe de pdf s'il est protégé")
 
-`parser.add_argument("--password" , help="mot de passe de pdf s'il est protégé")`
+parser.add_argument("--worker" , help="Id du worker")
 
-`parser.add_argument("--worker" , help="Id du worker")`
-
-`args = parser.parse_args()`
-
+args = parser.parse_args()
+</pre>
 
 Si le pdf n'est pas protégé password doit contenir une chaine vide:
 <pre>
@@ -575,16 +576,16 @@ Puis, on récupère le fichier en binaire:
 On définit le client: `client = Client(wsdl=args.wsdl)`.
 
 On récupère le type metadata et on crée un objet de ce type contenant le mot de passe de pdf:
+<pre>
+metadata_type = client.get_type('ns0:metadata')
 
-`metadata_type = client.get_type('ns0:metadata')
-
-metadata = metadata_type(password,'pdfPassword')`
-
+metadata = metadata_type(password,'pdfPassword')
+</pre>
 On envoie la requete : `result = client.service.processData(worker,metadata,data)`
 
 Enfin on récupère le resultat:
-
-`print("Archive ID: ", result.archiveId)
+<pre>
+print("Archive ID: ", result.archiveId)
 
 print("Metadata :", result.metadata)
 
@@ -596,7 +597,8 @@ file = open("out.pdf", "wb")
 
 file.write(result.data)
 
-file.close()`
+file.close()
+</pre>
 
 Le script entier est disponible sur ce [lien](https://github.com/bbouchra28/Dockerisation-de-PrimeKey-SignServer/blob/master/Clients/SignServerWSClient.py).
 
