@@ -1,0 +1,27 @@
+version: '3.3'
+services:
+  db:
+    image: mariadb
+    container_name: mariadb
+    restart: always
+    environment:
+      MYSQL_DATABASE: 'signserver'
+      MYSQL_USER: 'signserver'
+      MYSQL_PASSWORD: 'signserver'
+      MYSQL_ROOT_PASSWORD: 'signserver'
+    ports:
+      - '9999:3306'
+    volumes:
+      - my-db:/var/lib/mysql
+    networks:
+      vpcbr:
+        ipv4_address: 10.5.0.3
+volumes:
+  my-db:
+
+networks:
+  vpcbr:
+    driver: bridge
+    ipam:
+     config:
+       - subnet: 10.5.0.0/16
