@@ -415,7 +415,52 @@ Maintenant qu'on notre p12 en place, on passe à la configuration du Worker PDFS
 
 `bin/signserver setproperties doc/sample-configs/pdfsigner.properties`
 
+Puis on active la configuration:
+
+`bin/signserver reload 1`
+
+Enfin on test que tout les Worker sont up and running:
+
+`bin/signserver getstatus complete all`
+
 ### Création d'un client HTTP
+
+Dans cette partie on utilise python3 pour envoyer une requête http contenant un pdf à signer au SignServer.
+
+On utilise les libs suivantes:
+
+`import requests`
+`import argparse`
+
+On définit les flags (`--pdf`, `--host`, `--password`, `--worker`):
+
+`parser = argparse.ArgumentParser()`
+`parser.add_argument("--pdf" , help="Le fichier pdf a signer, chemin absolue")`
+`parser.add_argument("--host" , help="url vers SignServer")`
+`parser.add_argument("--password" , help="mot de passe de pdf s'il est protégé")`
+`parser.add_argument("--worker" , help="Id du worker")`
+`args = parser.parse_args()`
+
+
+Si le pdf n'est pas protégé password doit contenir une chaine vide:
+
+`if [args.password]:`
+` password = args.password`
+`else:`
+`	password = ""`
+
+Les paramètres de la requête:
+
+`params = {`
+`                            'workerName': 'PDFSigner'       ,`
+`                            'workerId': args.worker         ,`
+`                            'pdfPassword': password         ,`
+`                            'processType': 'signDocument'   ,`
+`        }`
+
+
+
+
 
 ### Création d'un client SOAP
 
