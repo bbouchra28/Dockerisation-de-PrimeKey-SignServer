@@ -41,83 +41,77 @@ Ensuite, on installe Apache Ant :
 ### Installation et préparation de la base de données MariaDB
 
 Tout d'abord on commence par installer la base de données Mariadb :
-
-`sudo yum install mariadb mariadb-server`
-
+<pre>
+sudo yum install mariadb mariadb-server
+</pre>
 Ensuite on vérifie si la base de données est démarrée:
-
-`systemctl status mariadb`
-
+<pre>
+systemctl status mariadb
+</pre>
 On se connecte sur MariaDB: 
-
-`mysql -u root`
-
+<pre>
+mysql -u root
+</pre>
 Puis on crée la base de données signserver et on ajoute l'utilisateur signserver@localhost:
 <pre>
 CREATE DATABASE signserver;
 GRANT ALL PRIVILEGES ON signserver.* TO signserver@localhost IDENTIFIED BY 'signserver';
 </pre>
-
 Afin d'initialiser (création des tables nécessaires pour l'installation et le fonctionnement de SignServer) la base de données, on a besoin des scripts SQL fournit par PrimeKey.
-
 On télécharge SignServer-ce-5.0.0.Final dans /opt/SignServer :
-
-`curl -o /opt/SignServer/signserver-ce-5.0.0.Final-bin.zip -L https://downloads.sourceforge.net/project/signserver/signserver/5.0/signserver-ce-5.0.0.Final-bin.zip?r=https%3A%2F%2Fsourceforge.net%2Fprojects%2Fsignserver%2Ffiles%2Fsignserver%2F5.0%2Fsignserver-ce-5.0.0.Final-bin.zip%2Fdownload&ts=1569520335`
-
+<pre>
+curl -o /opt/SignServer/signserver-ce-5.0.0.Final-bin.zip -L https://downloads.sourceforge.net/project/signserver/signserver/5.0/signserver-ce-5.0.0.Final-bin.zip?r=https%3A%2F%2Fsourceforge.net%2Fprojects%2Fsignserver%2Ffiles%2Fsignserver%2F5.0%2Fsignserver-ce-5.0.0.Final-bin.zip%2Fdownload&ts=1569520335
+</pre>
 Et puis on unzip le fichier :
-
-`unzip /opt/SignServer/signserver-ce-5.0.0.Final-bin.zip`
-
+<pre>
+unzip /opt/SignServer/signserver-ce-5.0.0.Final-bin.zip
+</pre>
 Maintenant on exécute les deux scripts SQL qui se trouvent dans: 
-
-`/opt/SignServer/signserver-ce-5.0.0.Final/doc/sql-scripts/create-tables-signserver-mysql.sql`
-
+<pre>
+/opt/SignServer/signserver-ce-5.0.0.Final/doc/sql-scripts/create-tables-signserver-mysql.sql
+</pre>
 et 
-
-`/opt/SignServer/signserver-ce-5.0.0.Final/doc/sql-scripts/create-index-signserver.sql`
+<pre>
+/opt/SignServer/signserver-ce-5.0.0.Final/doc/sql-scripts/create-index-signserver.sql
+</pre>
 
 ### Installation et configuration de Wildfly 14
 
 On commence par télécharger Wildfly :
-
-`curl -o /opt/SignServer/wildfly-14.0.1.Final.zip -L https://download.jboss.org/wildfly/14.0.1.Final/wildfly-14.0.1.Final.zip`
-
+<pre>
+curl -o /opt/SignServer/wildfly-14.0.1.Final.zip -L https://download.jboss.org/wildfly/14.0.1.Final/wildfly-14.0.1.Final.zip
+</pre>
 Ensuite on unzip l'archive:
-
-`unzip /opt/SignServer/wildfly-14.0.1.Final.zip`
-
-`cd /opt/SignServer/wildfly-14.0.1.Final`
-
+<pre>
+unzip /opt/SignServer/wildfly-14.0.1.Final.zip
+cd /opt/SignServer/wildfly-14.0.1.Final`
+</pre>
 Et on démarre le serveur Wildfly:
-
-`./bin/standalone.sh`
-
+<pre>
+./bin/standalone.sh
+</pre>
 Dans ce tutorial, on utilise les paires de clés et certificats fournit par PrimeKey SignServer.
-
 Attention! 
-
 Si vous utiliser SignServer en Prod vous devez utiliser vos propre certificats et paires de clés !
-
 On onfigure un HTTPS mutuel, donc on aura besoin d'un keystore et un truststore.
-
 On crée un répertoire Keystore pour stocker le magasin de clés TLS du serveur Web:
-
-`mkdir /opt/SignServer/wildfly-14.0.1.Final/standalone/configuration/keystore/`
-
+<pre>
+mkdir /opt/SignServer/wildfly-14.0.1.Final/standalone/configuration/keystore/
+</pre>
 On copie le keystore (certificat et paire de clés):
-
-`cp /opt/SignServer/signserver-ce-5.0.0.Final/res/test/dss10/dss10_demo-tls.jks /opt/SignServer/wildfly-14.0.1.Final/standalone/configuration/keystore/keystore.jks`
-
+<pre>
+cp /opt/SignServer/signserver-ce-5.0.0.Final/res/test/dss10/dss10_demo-tls.jks /opt/SignServer/wildfly-14.0.1.Final/standalone/configuration/keystore/keystore.jks`
+</pre>
 Puis le magasin de confiance:
-
-`cp /opt/SignServer/signserver-ce-5.0.0.Final/res/test/dss10/dss10_truststore.jks /opt/SignServer/wildfly-14.0.1.Final/standalone/configuration/keystore/truststore.jks`
-
+<pre>
+cp /opt/SignServer/signserver-ce-5.0.0.Final/res/test/dss10/dss10_truststore.jks /opt/SignServer/wildfly-14.0.1.Final/standalone/configuration/keystore/truststore.jks
+</pre>
 #### Configuration de TLS et HTTP
 
 On démarre la CLI JBOSS (Assurer vous que votre Wildfly est démarré):
-
-`/opt/SignServer/wildfly-14.0.1.Final/bin/jboss-cli.sh -c`
-
+<pre>
+/opt/SignServer/wildfly-14.0.1.Final/bin/jboss-cli.sh -c
+</pre>
 On supprime les configurations TLS et HTTP existantes et on autorise la configuration du port 8443:
 <pre>
 /subsystem=undertow/server=default-server/http-listener=default:remove
@@ -212,9 +206,9 @@ cp mariadb-java-client-2.1.0.jar /opt/SignServer/wildfly-14.0.1.Final/standalone
 </pre>
 
 Démarrer le CLI JBOSS:
-
-`/opt/SignServer/wildfly-14.0.1.Final/bin/jboss-cli.sh -c`
-
+<pre>
+/opt/SignServer/wildfly-14.0.1.Final/bin/jboss-cli.sh -c
+</pre>
 Configure la data source (Si vous utilisez une base de données sur une machine différente, vous devez changer l'addresse IP et le numéro de port):
 <pre>
 data-source add --name=signserverds --driver-name="mariadb-java-client.jar" --connection-url="jdbc:mysql://127.0.0.1:3306/signserver" --jndi-name="java:/SignServerDS" --use-ccm=true --driver-class="org.mariadb.jdbc.Driver" --user-name="signserver" --password="signserver" --validate-on-match=true --background-validation=false --prepared-statements-cache-size=50 --share-prepared-statements=true --min-pool-size=5 --max-pool-size=150 --pool-prefill=true --transaction-isolation=TRANSACTION_READ_COMMITTED --check-valid-connection-sql="select 1;" --enabled=true
@@ -229,33 +223,31 @@ export SIGNSERVER_NODEID=node1
 </pre>
 
 Puis on prépare les fichiers de configuration:
-
-`cd /opt/SignServer/signserver-ce-5.0.0.Final`
-
+<pre>
+cd /opt/SignServer/signserver-ce-5.0.0.Final
+</pre>
 Pour ce tuto, on va utiliser la configuration par défaut fournit par PrimeKey (vous pouvez modifier la configuration selon vos besoins).
-
-`cp conf/server_deploy.properties.sample conf/signserver_deploy.properties`
-
+<pre>
+cp conf/server_deploy.properties.sample conf/signserver_deploy.properties
+</pre>
 On déploie le SignServer sur le serveur WildFly
-
-`bin/ant deploy`
-
+<pre>
+bin/ant deploy
+</pre>
 On vérifier que signserver.ear.deployed
-
-`ls /opt/wildfly/standalone/deployments | grep signserver.ear*`
-
+<pre>
+ls /opt/wildfly/standalone/deployments | grep signserver.ear*
+</pre>
 Enfin on test si SignServer a été déployer correctement:
-
-`bin/signserver getstatus brief all`
-
-`Current version of server is: SignServer CE 5.0.0`
-
+<pre>
+bin/signserver getstatus brief all
+Current version of server is: SignServer CE 5.0.0`
+</pre>
 
 <a name="aut"></a>
 ## Partie II : Installation Automatique
 
 Maintenant qu'on a installé SignServer manuellement passons à l'étape suivante et automatisons l'ensemble du processus.
-
 On aura besoin de créer les fonctions bash suivantes:
 
 - **init_mariadb()**         : Supprime les tables de SignServer de la base de données.
@@ -271,11 +263,10 @@ On aura besoin de créer les fonctions bash suivantes:
 - **deploy_signserver()**    : Déploie SignServer.
 
 Le script est disponible sur [ce lien](https://github.com/bbouchra28/Dockerisation-de-PrimeKey-SignServer/blob/master/signserver_install.sh)
-
 Pour l'utiliser:
-
-`bash signserver_install.sh $database_host $database_port $database_name $database_username $database_password`
-
+<pre>
+bash signserver_install.sh $database_host $database_port $database_name $database_username $database_password
+</pre>
 
 <a name="doc"></a>
 ## Partie III : Dockerisation
@@ -298,17 +289,17 @@ De plus on crée un réseau 10.5.0.0/16, on attribue l'adresse 10.5.0.3 au conte
 Enfin nous avons un volume pour persister les données stocker sur mariadb.
 
 On lance la base de données avant de construire l'image:
-
-`docker-compose -f mariadb-compose.yml up -d`
-
+<pre>
+docker-compose -f mariadb-compose.yml up -d
+</pre>
 ### Dockerfile
 
 Pour le processus de dockerisation nous allons baser notre construction sur une image debian 9.7.
 
 Tout d'abord une crée une couche à partir de l'image debian:9.7 disponible sur le docker-hub :
-
-`FROM debian:9.7` 
-
+<pre>
+FROM debian:9.7
+</pre>
 Ensuite on installe les outils nécessaire pour l'installation (unzip, ant, curl, wget, openjdk-8 ... ):
 <pre>
 RUN apt-get update && apt-get install -y unzip ant ant-optional psmisc bc patch openjdk-8-jdk-headless wget gnupg2 curl mariadb-server
@@ -354,17 +345,17 @@ Une fois la construction de l'image est fini, on peut maintenant l'utiliser pour
 Le fichier [signserver-compose.yml](https://github.com/bbouchra28/Dockerisation-de-PrimeKey-SignServer/blob/master/signserver-compose.yml) permet de lancer un conteneur SignServer sur l'adresse IP 10.5.0.3 avec les variables d'environnement nécessaires.
 
 Avant de lancer le conteneur SignServer, on doit assurer que notre base de données est live et disponible, pour être sure on peut faire `netstat/ss -ntlp` ou de re-exécuter la commande :
-
-`docker-compose -f mariadb-compose.yml up -d`
-
+<pre>
+docker-compose -f mariadb-compose.yml up -d
+</pre>
 Et puis on lance notre conteneur SignServer:
-
-`docker-compose -f SignServer.yml up -d`
-
+<pre>
+docker-compose -f SignServer.yml up -d
+</pre>
 On vérifie les logs pour assurer que WildFly a été correctement démarré :
-
-`docker logs -f sign`
-
+<pre>
+docker logs -f sign
+</pre>
 Allons à l'intérieur du conteneur pour vérifier que tout marche bien :
 <pre>
 docker exec -it sign bash
@@ -380,35 +371,33 @@ Resultat : `Current version of server is : SignServer CE 5.0.0.Final`
 ### Configuration d'un Worker PDFSigner
 
 On se met à l'interieur du conteneur SignServer:
-
-`docker exec -it sign bash`
-
+<pre>
+docker exec -it sign bash
+</pre>
 Tout d'abord on configure un CryotoTokenP12  en utilisant l'exemple de fichier de configuration fournit par PrimeKey.
-
-`bin/signserver setproperties doc/sample-configs/keystore-crypto.properties`
-
+<pre>
+bin/signserver setproperties doc/sample-configs/keystore-crypto.properties
+</pre>
 Ensuite on met à jour la propriété KEYSTOREPATH du CryptoToken pour qu'elle pointe vers un magasin de clés PKCS # 12 contenant les clés et le certificat appropriés pour la signature des documents (on utilise le p12 fournit par PrimeKey à des fins de test seulement)
 <pre>
 bin/signserver setproperty 1 KEYSTOREPATH /opt/wildfly/res/test/dss10/dss10_keystore.p12
-
 bin/signserver setproperty 1 KEYSTOREPASSWORD foo123
-
 bin/signserver setproperty 1 DEFAULTKEY "signer00003"
-
 bin/signserver reload 1
 </pre>
 
 Maintenant qu'on notre p12 en place, on passe à la configuration du Worker PDFSigner:
-
-`bin/signserver setproperties doc/sample-configs/pdfsigner.properties`
-
+<pre>
+bin/signserver setproperties doc/sample-configs/pdfsigner.properties
+</pre>
 Puis on active la configuration:
-
-`bin/signserver reload 1`
-
+<pre>
+bin/signserver reload 1
+</pre>
 Enfin on test que tout les Worker sont up and running:
-
-`bin/signserver getstatus complete all`
+<pre>
+bin/signserver getstatus complete all
+</pre>
 
 ### Création d'un client HTTP
 
@@ -417,19 +406,14 @@ Dans cette partie on utilise python3 pour envoyer une requête http contenant un
 On utilise les libs suivantes:
 <pre>
 import requests
-
 import argparse
 </pre>
 On définit les flags (`--pdf`, `--host`, `--password`, `--worker`):
 <pre>
 parser = argparse.ArgumentParser()
-
 parser.add_argument("--pdf" , help="Le fichier pdf a signer, chemin absolue")
-
 parser.add_argument("--host" , help="url vers SignServer")
-
 parser.add_argument("--password" , help="mot de passe de pdf s'il est protégé")
-
 parser.add_argument("--worker" , help="Id du worker")
 
 args = parser.parse_args()
@@ -438,65 +422,52 @@ args = parser.parse_args()
 Si le pdf n'est pas protégé password doit contenir une chaine vide:
 <pre>
 if [args.password]:
-
    password = args.password
-
 else:
-
    password = ""
 </pre>
 Les paramètres de la requête:
 <pre>
 params = {
-
-                            'workerName': 'PDFSigner'       ,
-                            
+                            'workerName': 'PDFSigner'       ,                  
                             'workerId': args.worker         ,
-                            
                             'pdfPassword': password         ,
-                            
                             'processType': 'signDocument'   ,
-                            
         }
 </pre>
-
 Le fichier à signer et l'url vers le SignServer:
-
-`pdffiles = {'filerecievefile': open(args.pdf, 'rb') }`
-
-`url = args.host + '/signserver/process'`
-
+<pre>
+pdffiles = {'filerecievefile': open(args.pdf, 'rb') }
+url = args.host + '/signserver/process'
+</pre>
 On envoie la requête HTTP:
-
-`r = requests.post(url, data=params, files=pdffiles)`
-
+<pre>
+r = requests.post(url, data=params, files=pdffiles)
+</pre>
 On récupère le pdf fichier et on le sauvegarde de `out.pdf`:
-
-`file = open("out.pdf", "wb")`
-`file.write(r.content)`
-`file.close()`
+<pre>
+file = open("out.pdf", "wb")
+file.write(r.content)
+file.close()
+</pre>
 
 Le script entier est disponible sur ce [lien](https://github.com/bbouchra28/Dockerisation-de-PrimeKey-SignServer/blob/master/Clients/HttpSignRequest.py).
-
 On essaye le script avec un pdf non protégé:
-
-`python3 HttpSignRequest.py --pdf="mypdf.pdf" --host="http://10.5.0.1:9005" --worker=2 `
-
+<pre>
+python3 HttpSignRequest.py --pdf="mypdf.pdf" --host="http://10.5.0.1:9005" --worker=2 
+</pre>
 Maintenant avec un pdf protégé:
-
-`python3 HttpSignRequest.py --pdf="mypdf.pdf" --host="http://10.5.0.1:9005" --worker=2  --password="foo123"`
-
+<pre>
+python3 HttpSignRequest.py --pdf="mypdf.pdf" --host="http://10.5.0.1:9005" --worker=2  --password="foo123"
+</pre>
 
 ### Création d'un client WS
 
 Aller maintenant on joue avec le service WSDL(Web Services Description Language) de SignServer.
-
 On peut trouver ClientWS?wsdl sur l'url suivant http://<SignServer>/signserver/ClientWSService/ClientWS?wsdl.
-
 On peut utilise le plugin chrome Wizdler pour voir les service disponibles, SignServeur expose deux service ProcessData et ProcessSOD.
-
 On n'est pas intéressé par les e-passeport donc le service qui nous intéresse est ProcessData.
-
+	
 Voici un exemple de requête SOAP pour signer un pdf sur SignServer: [SoapRequest](https://imgur.com/lVjvZbT).
 
 
@@ -505,27 +476,24 @@ Voici un exemple de requête SOAP pour signer un pdf sur SignServer: [SoapReques
 Afin d'automatiser l'envoie des requête SOAP, on utilise la librarie python-zeep pour créer un script d'automatisation.
 
 On utilise les libraries suivantes:
-
-`from zeep import Client`
-
-`import argparse`
+<pre>
+from zeep import Client
+import argparse
+</pre>
 
 Donc on doit installer zeep:
-
-`pip3 install zeep`
-
+<pre>
+pip3 install zeep
+</pre>
 Si vous n'avez pas pip3 :
-
-`apt install python3-pip`
-
+<pre>
+apt install python3-pip
+</pre>
 Ensuite on met les flags nécessaire:
 <pre>
 parser = argparse.ArgumentParser() 
-
 parser.add_argument("--pdf" , help="Le fichier pdf a signer, chemin absolue")
-
 parser.add_argument("--wsdl" , help="url vers SignServer")
-
 parser.add_argument("--password" , help="mot de passe de pdf s'il est protégé")
 
 args = parser.parse_args()
@@ -533,27 +501,20 @@ args = parser.parse_args()
 Si le pdf n'est pas protégé on aura pas besoin de password:
 <pre>
 if [args.password]:
-
 	password = args.password
- 
 else:
-
 	password = ""
- </pre>
+</pre>
 Ensuite, on définit le Worker : `worker="PDFSigner"`
-
 Puis, on récupère le fichier en binaire:
  <pre>
  with open(args.pdf, "rb") as file:
-
      data = file.read()
  </pre>
 On définit le client: `client = Client(wsdl=args.wsdl)`.
-
 On récupère le type metadata et on crée un objet de ce type contenant le mot de passe de pdf:
 <pre>
 metadata_type = client.get_type('ns0:metadata')
-
 metadata = metadata_type(password,'pdfPassword')
 </pre>
 On envoie la requete : `result = client.service.processData(worker,metadata,data)`
@@ -561,30 +522,25 @@ On envoie la requete : `result = client.service.processData(worker,metadata,data
 Enfin on récupère le resultat:
 <pre>
 print("Archive ID: ", result.archiveId)
-
 print("Metadata :", result.metadata)
-
 print("Request ID ",result.requestId)
-
 print("Signer's Certificates", result.signerCertificate.hex())
 
 file = open("out.pdf", "wb")
-
 file.write(result.data)
-
 file.close()
 </pre>
 
 Le script entier est disponible sur ce [lien](https://github.com/bbouchra28/Dockerisation-de-PrimeKey-SignServer/blob/master/Clients/SignServerWSClient.py).
 
 On essaye le script avec un pdf non protégé:
-
-`python3 SignServerWSClient.py --pdf=mypdf.pdf --wsdl="http://10.5.0.1:9005/signserver/ClientWSService/ClientWS?wsdl"`
-
+<pre>
+python3 SignServerWSClient.py --pdf=mypdf.pdf --wsdl="http://10.5.0.1:9005/signserver/ClientWSService/ClientWS?wsdl"
+</pre>
 Maintenant avec un pdf protégé:
-
-`python3 SignServerWSClient.py --pdf=myprotectedpdf.pdf --password=foo123 --wsdl="http://10.5.0.1:9005/signserver/ClientWSService/ClientWS?wsdl"`
-
+<pre>
+python3 SignServerWSClient.py --pdf=myprotectedpdf.pdf --password=foo123 --wsdl="http://10.5.0.1:9005/signserver/ClientWSService/ClientWS?wsdl"
+<pre>
 <a name="cnc"></a>
 ## Conclusion
 
