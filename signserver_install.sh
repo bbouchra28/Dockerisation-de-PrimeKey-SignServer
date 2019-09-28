@@ -50,8 +50,6 @@ SIGNSERVER_TAR_SHA256=99d27fdccc47ee6851cd2c7aa77af7334f3473e5069bc9b4a5c01e0254
 SIGNSERVER_DIR="signserver-ce-${SIGNSERVER_VERSION}"
 
 
-
-
 init_mariadb() {
 
 	cd $INSTALL_DIRECTORY ||exit 1
@@ -62,8 +60,8 @@ init_mariadb() {
 create_mariadb_index() {
 
   cd $INSTALL_DIRECTORY || exit 1
-  cat signserver/doc/sql-scripts/create-tables-signserver-mysql.sql | mysql --host=${database_host} --protocol=tcp --port=3306 --user=${database_username} --database=${database_name} --password=${database_password}
-  cat signserver/doc/sql-scripts/create-index-signserver.sql | mysql --host=${database_host} --protocol=tcp --port=3306 --user=${database_username} --database=${database_name} --password=${database_password}
+  cat signserver/doc/sql-scripts/create-tables-signserver-mysql.sql | mysql --host=${database_host} --protocol=tcp --port=${database_port} --user=${database_username} --database=${database_name} --password=${database_password}
+  cat signserver/doc/sql-scripts/create-index-signserver.sql | mysql --host=${database_host} --protocol=tcp --port=${database_port} --user=${database_username} --database=${database_name} --password=${database_password}
 
 }
 
@@ -357,4 +355,5 @@ echo
 echo 
 
 backup_mariadb
+
 
