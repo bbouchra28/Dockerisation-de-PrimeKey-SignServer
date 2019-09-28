@@ -516,40 +516,94 @@ On peut utilise le plugin chrome Wizdler pour voir les service disponibles, Sign
 
 On n'est pas intéressé par les e-passeport donc le service qui nous intéresse est ProcessData.
 
-Voici un exemple de requête SOAP pour signer un pdf sur SignServer:
-
-![SoapRequest](https://imgur.com/lVjvZbT)
+Voici un exemple de requête SOAP pour signer un pdf sur SignServer: [SoapRequest](https://imgur.com/lVjvZbT).
 
 
 #### Python zeep
 
+Afin d'automatiser l'envoie des requête SOAP, on utilise la librarie python-zeep pour créer un script d'automatisation.
 
+On utilise les libraries suivantes:
+
+`from zeep import Client
+
+import argparse`
+
+Donc on doit installer zeep:
+
+`pip3 install zeep`
+
+Si vous n'avez pas pip3 :
+
+`apt install python3-pip`
+
+Ensuite on met les flags nécessaire:
+
+`parser = argparse.ArgumentParser() 
+
+parser.add_argument("--pdf" , help="Le fichier pdf a signer, chemin absolue")
+
+parser.add_argument("--wsdl" , help="url vers SignServer")
+
+parser.add_argument("--password" , help="mot de passe de pdf s'il est protégé")
+
+args = parser.parse_args()`
+
+Si le pdf n'est pas protégé on aura pas besoin de password:
+
+`if [args.password]:
+
+	password = args.password
+ 
+else:
+
+	password = ""
+ `
+Ensuite, on définit le Worker : `worker="PDFSigner"`
+
+Puis, on récupère le fichier en binaire:
+ 
+ `with open(args.pdf, "rb") as file:
+
+     data = file.read()
+ `
+On définit le client: `client = Client(wsdl=args.wsdl)`.
+
+On récupère le type metadata et on crée un objet de ce type contenant le mot de passe de pdf:
+
+`metadata_type = client.get_type('ns0:metadata')
+
+metadata = metadata_type(password,'pdfPassword')`
+
+On envoie la requete : `result = client.service.processData(worker,metadata,data)`
+
+Enfin on récupère le resultat:
+
+`print("Archive ID: ", result.archiveId)
+
+print("Metadata :", result.metadata)
+
+print("Request ID ",result.requestId)
+
+print("Signer's Certificates", result.signerCertificate.hex())
+
+file = open("out.pdf", "wb")
+
+file.write(result.data)
+
+file.close()`
+
+Le script entier est disponible sur ce [lien](https://github.com/bbouchra28/Dockerisation-de-PrimeKey-SignServer/blob/master/Clients/SignServerWSClient.py).
+
+On essaye le script avec un pdf non protégé:
+
+`python3 SignServerWSClient.py --pdf=mypdf.pdf --wsdl="http://10.5.0.1:9005/signserver/ClientWSService/ClientWS?wsdl"`
+
+Maintenant avec un pdf protégé:
+
+`python3 SignServerWSClient.py --pdf=myprotectedpdf.pdf --password=foo123 --wsdl="http://10.5.0.1:9005/signserver/ClientWSService/ClientWS?wsdl"`
 
 <a name="cnc"></a>
 ## Conclusion
 
-
-### Markdown
-
-Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
-
-```markdown
-Syntax highlighted code block
-
-# Header 1
-## Header 2
-### Header 3
-
-- Bulleted
-- List
-
-1. Numbered
-2. List
-
-**Bold** and _Italic_ and `Code` text
-
-[Link](url) and ![Image](src)
-```
-
-For more details see [GitHub Flavored Markdown](https://guides.github.com/features/mastering-markdown/).
 
