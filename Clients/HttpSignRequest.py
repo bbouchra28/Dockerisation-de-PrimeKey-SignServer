@@ -14,7 +14,7 @@ if [args.password]:
 else:
 	password = ""
 	
-print (password)
+
 params = {
                             'workerName': 'PDFSigner'       ,
                             'workerId': args.worker         ,
