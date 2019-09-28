@@ -460,7 +460,7 @@ On définit les flags (`--pdf`, `--host`, `--password`, `--worker`):
 
 
 Si le pdf n'est pas protégé password doit contenir une chaine vide:
-
+<pre>
 `if [args.password]:`
 
 `   password = args.password`
@@ -468,7 +468,7 @@ Si le pdf n'est pas protégé password doit contenir une chaine vide:
 `else:`
 
  `  password = ""`
-
+</pre>
 Les paramètres de la requête:
 
 `params = {
