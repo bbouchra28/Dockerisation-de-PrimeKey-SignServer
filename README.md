@@ -145,97 +145,88 @@ On configure HTTPS httpspriv le port privé nécessitant le certificat client. (
 </pre>
 
 On configure le listener HTTP par défaut:
-
-`/socket-binding-group=standard-sockets/socket-binding=http:add(port="8080",interface="http")`
-
-`/subsystem=undertow/server=default-server/http-listener=default:add(socket-binding=http, max-post-size="10485760", enable-http2="false")`
-
-`/subsystem=undertow/server=default-server/http-listener=default:write-attribute(name=redirect-socket, value="httpspriv")`
-
-`:reload`
-
+<pre>
+/socket-binding-group=standard-sockets/socket-binding=http:add(port="8080",interface="http")
+/subsystem=undertow/server=default-server/http-listener=default:add(socket-binding=http, max-post-size="10485760", enable-http2="false")
+/subsystem=undertow/server=default-server/http-listener=default:write-attribute(name=redirect-socket, value="httpspriv")
+:reload
+</pre>
  On Configure HTTPS httpspub et le port SSL public ne nécessitant pas le certificat client:
- 
-`/socket-binding-group=standard-sockets/socket-binding=httpspub:add(port="8442",interface="httpspub")`
-
-`/subsystem=undertow/server=default-server/https-listener=httpspub:add(socket-binding="httpspub", security-realm="SSLRealm", max-post-size="10485760", enable-http2="false")`
+<pre> 
+/socket-binding-group=standard-sockets/socket-binding=httpspub:add(port="8442",interface="httpspub")
+/subsystem=undertow/server=default-server/https-listener=httpspub:add(socket-binding="httpspub", security-realm="SSLRealm", max-post-size="10485760", enable-http2="false")
+</pre>
 
 On configure le remoting (HTTP) et on sécurise l'interface de ligne de commande en supprimant le connecteur http-remoting-using du port HTTP et utilisez plutôt un port séparé (4447) :
-
-`/subsystem=remoting/http-connector=http-remoting-connector:remove`
-
-`/subsystem=remoting/http-connector=http-remoting-connector:add(connector-ref="remoting",security-realm="ApplicationRealm")`
-
-`/socket-binding-group=standard-sockets/socket-binding=remoting:add(port="4447")`
-
-`/subsystem=undertow/server=default-server/http-listener=remoting:add(socket-binding=remoting, max-post-size="10485760", enable-http2="true")`
+<pre>
+/subsystem=remoting/http-connector=http-remoting-connector:remove`
+/subsystem=remoting/http-connector=http-remoting-connector:add(connector-ref="remoting",security-realm="ApplicationRealm")`
+/socket-binding-group=standard-sockets/socket-binding=remoting:add(port="4447")`
+/subsystem=undertow/server=default-server/http-listener=remoting:add(socket-binding=remoting, max-post-size="10485760", enable-http2="true")`
+</pre>
 
 #### WSDL Location
 
 On configure l'emplacement du WSDL:
-
-`/subsystem=webservices:write-attribute(name=wsdl-host, value=jbossws.undefined.host)`
-
-`/subsystem=webservices:write-attribute(name=modify-wsdl-address, value=true)`
-
-`:reload`
+<pre>
+/subsystem=webservices:write-attribute(name=wsdl-host, value=jbossws.undefined.host)
+/subsystem=webservices:write-attribute(name=modify-wsdl-address, value=true)
+:reload
+</pre>
 
 #### Encodage URI
 
 On configure l'encodage URI:
-
-`/system-property=org.apache.catalina.connector.URI_ENCODING:remove()`
-
-`/system-property=org.apache.catalina.connector.URI_ENCODING:add(value=UTF-8)`
-
-`/system-property=org.apache.catalina.connector.USE_BODY_ENCODING_FOR_QUERY_STRING:remove()`
-
-`/system-property=org.apache.catalina.connector.USE_BODY_ENCODING_FOR_QUERY_STRING:add(value=true)`
-
-`:reload`
-
+<pre>
+/system-property=org.apache.catalina.connector.URI_ENCODING:remove()
+/system-property=org.apache.catalina.connector.URI_ENCODING:add(value=UTF-8)
+/system-property=org.apache.catalina.connector.USE_BODY_ENCODING_FOR_QUERY_STRING:remove()
+/system-property=org.apache.catalina.connector.USE_BODY_ENCODING_FOR_QUERY_STRING:add(value=true)
+:reload
+</pre>
 
 #### Dépannage de JBOSS
 
 Quitter la CLI JBOSS.
-
-`curl -o /opt/SignServer/xalan-2.7.2.jar -L https://repo1.maven.org/maven2/xalan/xalan/2.7.2/xalan-2.7.2.jar`
-
-`curl -o /opt/SignServer/serializer-2.7.2.jar -L https://repo1.maven.org/maven2/xalan/serializer/2.7.2/serializer-2.7.2.jar`
-
-`cp /opt/SignServer/xalan-2.7.2.jar /opt/SignServer/serializer-2.7.2.jar /opt/SignServer/wildfly-14.0.1.Final/modules/system/layers/base/org/apache/xalan/main/`
-
-`sed -i 's/path="serializer-2.7.1.jbossorg-4.jar"/path="serializer-2.7.2.jar"/g' /opt/SignServer/wildfly-14.0.1.Final/modules/system/layers/base/org/apache/xalan/main/module.xml`
-
-`sed -i 's/path="xalan-2.7.1.jbossorg-4.jar"/path="xalan-2.7.2.jar"/g' /opt/SignServer/wildfly-14.0.1.Final/modules/system/layers/base/org/apache/xalan/main/module.xml`
-
+<pre>
+curl -o /opt/SignServer/xalan-2.7.2.jar -L https://repo1.maven.org/maven2/xalan/xalan/2.7.2/xalan-2.7.2.jar
+curl -o /opt/SignServer/serializer-2.7.2.jar -L https://repo1.maven.org/maven2/xalan/serializer/2.7.2/serializer-2.7.2.jar
+</pre>
+<pre>
+cp /opt/SignServer/xalan-2.7.2.jar /opt/SignServer/serializer-2.7.2.jar /opt/SignServer/wildfly-14.0.1.Final/modules/system/layers/base/org/apache/xalan/main/
+</pre>
+<pre>
+sed -i 's/path="serializer-2.7.1.jbossorg-4.jar"/path="serializer-2.7.2.jar"/g' /opt/SignServer/wildfly-14.0.1.Final/modules/system/layers/base/org/apache/xalan/main/module.xml
+sed -i 's/path="xalan-2.7.1.jbossorg-4.jar"/path="xalan-2.7.2.jar"/g' /opt/SignServer/wildfly-14.0.1.Final/modules/system/layers/base/org/apache/xalan/main/module.xml
+</pre>
 #### Configuration de la base de données
 
 Télécharger le pilote de base de données MariaDB:
-
-`curl -o /opt/SignServer/mariadb-java-client-2.1.0.jar -L https://downloads.mariadb.com/Connectors/java/connector-java-2.1.0/mariadb-java-client-2.1.0.jar`
-
+<pre>
+curl -o /opt/SignServer/mariadb-java-client-2.1.0.jar -L https://downloads.mariadb.com/Connectors/java/connector-java-2.1.0/mariadb-java-client-2.1.0.jar
+</pre>
 Ajoutez le pilote de base de données MariaDB en le déployant à chaud dans le répertoire de déploiement:
 
-`cp mariadb-java-client-2.1.0.jar /opt/SignServer/wildfly-14.0.1.Final/standalone/deployments/mariadb-java-client.jar`
+<pre>
+cp mariadb-java-client-2.1.0.jar /opt/SignServer/wildfly-14.0.1.Final/standalone/deployments/mariadb-java-client.jar
+</pre>
 
 Démarrer le CLI JBOSS:
 
 `/opt/SignServer/wildfly-14.0.1.Final/bin/jboss-cli.sh -c`
 
 Configure la data source (Si vous utilisez une base de données sur une machine différente, vous devez changer l'addresse IP et le numéro de port):
-
-`data-source add --name=signserverds --driver-name="mariadb-java-client.jar" --connection-url="jdbc:mysql://127.0.0.1:3306/signserver" --jndi-name="java:/SignServerDS" --use-ccm=true --driver-class="org.mariadb.jdbc.Driver" --user-name="signserver" --password="signserver" --validate-on-match=true --background-validation=false --prepared-statements-cache-size=50 --share-prepared-statements=true --min-pool-size=5 --max-pool-size=150 --pool-prefill=true --transaction-isolation=TRANSACTION_READ_COMMITTED --check-valid-connection-sql="select 1;" --enabled=true`
-
-`:reload`
-
+<pre>
+data-source add --name=signserverds --driver-name="mariadb-java-client.jar" --connection-url="jdbc:mysql://127.0.0.1:3306/signserver" --jndi-name="java:/SignServerDS" --use-ccm=true --driver-class="org.mariadb.jdbc.Driver" --user-name="signserver" --password="signserver" --validate-on-match=true --background-validation=false --prepared-statements-cache-size=50 --share-prepared-statements=true --min-pool-size=5 --max-pool-size=150 --pool-prefill=true --transaction-isolation=TRANSACTION_READ_COMMITTED --check-valid-connection-sql="select 1;" --enabled=true
+:reload
+</pre>
 ### Installation de SignServer
 
 Dans cette étape on installe SignServer CE, on commence par la définition des variables d'environnement de notre bash shell.
-
-`export APPSRV_HOME=/opt/SignServer/wildfly-14.0.1.Final`
-
-`export SIGNSERVER_NODEID=node1`
+<pre>
+export APPSRV_HOME=/opt/SignServer/wildfly-14.0.1.Final
+export SIGNSERVER_NODEID=node1
+</pre>
 
 Puis on prépare les fichiers de configuration:
 
@@ -319,27 +310,24 @@ Tout d'abord une crée une couche à partir de l'image debian:9.7 disponible sur
 `FROM debian:9.7` 
 
 Ensuite on installe les outils nécessaire pour l'installation (unzip, ant, curl, wget, openjdk-8 ... ):
-
-`RUN apt-get update && apt-get install -y unzip ant ant-optional psmisc bc patch openjdk-8-jdk-headless wget gnupg2 curl mariadb-server`
-
+<pre>
+RUN apt-get update && apt-get install -y unzip ant ant-optional psmisc bc patch openjdk-8-jdk-headless wget gnupg2 curl mariadb-server
+</pre>
 Puis on copie le fichier d'installation automatique dans /opt:
-
-`COPY ./signserver_install.sh /opt`
-
+<pre>
+COPY ./signserver_install.sh /opt
+</pre>
 on se met sur /opt et on exécute le script, on donne l'adresse IP du passerelle (la machine physique) et le port 9999 :
-
-`WORKDIR /opt`
-
-`RUN bash signserver_install.sh 10.5.0.1 9999 signserver signserver signserver`
-
+<pre>
+WORKDIR /opt
+RUN bash signserver_install.sh 10.5.0.1 9999 signserver signserver signserver
+</pre>
 Une fois l'installtion est finie on copie le script d'intialisation, on le transforme en exécutable et on le met en Entrypoint (c'est à dire init.sh sera éxécuté une fois le conteneur est démarré).
-
-`COPY ./init.sh  /opt`
-
-`RUN chmod +x /opt/init.sh`
-
-`ENTRYPOINT "./init.sh"`
-
+<pre>
+COPY ./init.sh  /opt
+RUN chmod +x /opt/init.sh
+ENTRYPOINT "./init.sh"
+</pre>
 ### signserver_install.sh 
 
 On utilise le script d'installation automatique de SignServer pour installer et configurer SignServer et Wildfly sur l'image docker.
@@ -378,13 +366,11 @@ On vérifie les logs pour assurer que WildFly a été correctement démarré :
 `docker logs -f sign`
 
 Allons à l'intérieur du conteneur pour vérifier que tout marche bien :
-
-`docker exec -it sign bash`
-
-`cd signserver`
-
-`bin/signserver getsatus brief all`
-
+<pre>
+docker exec -it sign bash
+cd signserver
+bin/signserver getsatus brief all
+</pre>
 Resultat : `Current version of server is : SignServer CE 5.0.0.Final`
 
 
