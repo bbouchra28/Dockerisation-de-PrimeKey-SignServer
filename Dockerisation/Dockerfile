@@ -10,7 +10,6 @@ RUN apt-get update && apt-get install -y \
 	openjdk-8-jdk-headless \
 	wget \
         gnupg2 \
-	nano \
 	curl \
 	mariadb-server 
 
