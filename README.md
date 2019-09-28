@@ -540,7 +540,7 @@ python3 SignServerWSClient.py --pdf=mypdf.pdf --wsdl="http://10.5.0.1:9005/signs
 Maintenant avec un pdf protégé:
 <pre>
 python3 SignServerWSClient.py --pdf=myprotectedpdf.pdf --password=foo123 --wsdl="http://10.5.0.1:9005/signserver/ClientWSService/ClientWS?wsdl"
-<pre>
+</pre>
 <a name="cnc"></a>
 ## Conclusion
 
