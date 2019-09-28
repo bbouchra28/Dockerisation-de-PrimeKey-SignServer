@@ -121,39 +121,28 @@ On démarre la CLI JBOSS (Assurer vous que votre Wildfly est démarré):
 On supprime les configurations TLS et HTTP existantes et on autorise la configuration du port 8443:
 <pre>
 /subsystem=undertow/server=default-server/http-listener=default:remove
-
 /subsystem=undertow/server=default-server/https-listener=https:remove
-
 /socket-binding-group=standard-sockets/socket-binding=http:remove
-
 /socket-binding-group=standard-sockets/socket-binding=https:remove
 :reload
-
 </pre>
 On Configure les interfaces en utilisant l'adresse de liaison appropriée, dans ce tuto on utilise 0.0.0.0 ce qui rend Wildfly disponible pour tout le monde:
-
-`/interface=http:add(inet-address="0.0.0.0")`
-
-`/interface=httpspub:add(inet-address="0.0.0.0")`
-
-`/interface=httpspriv:add(inet-address="0.0.0.0")`
-
+<pre>
+/interface=http:add(inet-address="0.0.0.0")
+/interface=httpspub:add(inet-address="0.0.0.0")
+/interface=httpspriv:add(inet-address="0.0.0.0")
+</pre>
 On configure HTTPS httpspriv le port privé nécessitant le certificat client. (On utilise les paires de clés et certificats fournit par PrimeKey pour tester SignServer, Veuillez changer les mot de passes)
 
-
-`/core-service=management/security-realm=SSLRealm:add()`
-
-`/core-service=management/security-realm=SSLRealm/server-identity=ssl:add(keystore-path="keystore/keystore.jks", keystore-relative-to="jboss.server.config.dir", keystore-password="serverpwd", alias="localhost")`
-
-`:reload`
-
-`/core-service=management/security-realm=SSLRealm/authentication=truststore:add(keystore-path="keystore/truststore.jks", keystore-relative-to="jboss.server.config.dir", keystore-password="changeit")`
-
-`:reload`
-
-`/socket-binding-group=standard-sockets/socket-binding=httpspriv:add(port="8443",interface="httpspriv")`
-
-`/subsystem=undertow/server=default-server/https-listener=httpspriv:add(socket-binding="httpspriv", security-realm="SSLRealm", verify-client=REQUIRED, max-post-size="10485760", enable-http2="false")` 
+<pre>
+/core-service=management/security-realm=SSLRealm:add()
+/core-service=management/security-realm=SSLRealm/server-identity=ssl:add(keystore-path="keystore/keystore.jks", keystore-relative-to="jboss.server.config.dir", keystore-password="serverpwd", alias="localhost")
+:reload
+/core-service=management/security-realm=SSLRealm/authentication=truststore:add(keystore-path="keystore/truststore.jks", keystore-relative-to="jboss.server.config.dir", keystore-password="changeit")
+:reload
+/socket-binding-group=standard-sockets/socket-binding=httpspriv:add(port="8443",interface="httpspriv")
+/subsystem=undertow/server=default-server/https-listener=httpspriv:add(socket-binding="httpspriv", security-realm="SSLRealm", verify-client=REQUIRED, max-post-size="10485760", enable-http2="false")`
+</pre>
 
 On configure le listener HTTP par défaut:
 
