@@ -446,28 +446,28 @@ On utilise les libs suivantes:
 
 On définit les flags (`--pdf`, `--host`, `--password`, `--worker`):
 
-`parser = argparse.ArgumentParser()
+`parser = argparse.ArgumentParser()`
 
-parser.add_argument("--pdf" , help="Le fichier pdf a signer, chemin absolue")
+`parser.add_argument("--pdf" , help="Le fichier pdf a signer, chemin absolue")`
 
-parser.add_argument("--host" , help="url vers SignServer")
+`parser.add_argument("--host" , help="url vers SignServer")`
 
-parser.add_argument("--password" , help="mot de passe de pdf s'il est protégé")
+`parser.add_argument("--password" , help="mot de passe de pdf s'il est protégé")`
 
-parser.add_argument("--worker" , help="Id du worker")
+`parser.add_argument("--worker" , help="Id du worker")`
 
-args = parser.parse_args()`
+`args = parser.parse_args()`
 
 
 Si le pdf n'est pas protégé password doit contenir une chaine vide:
 
-`if [args.password]:
+`if [args.password]:`
 
-   password = args.password
+`   password = args.password`
 
-else:
+`else:`
 
-   password = ""`
+ `  password = ""`
 
 Les paramètres de la requête:
 
