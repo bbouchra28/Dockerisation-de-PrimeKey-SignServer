@@ -461,17 +461,17 @@ On définit les flags (`--pdf`, `--host`, `--password`, `--worker`):
 
 Si le pdf n'est pas protégé password doit contenir une chaine vide:
 <pre>
-`if [args.password]:`
+if [args.password]:
 
-`   password = args.password`
+   password = args.password
 
-`else:`
+else:
 
- `  password = ""`
+   password = ""
 </pre>
 Les paramètres de la requête:
-
-`params = {
+</pre>
+params = {
 
                             'workerName': 'PDFSigner'       ,
                             
@@ -482,7 +482,8 @@ Les paramètres de la requête:
                             'processType': 'signDocument'   ,
                             
         }
-`
+</pre>
+
 Le fichier à signer et l'url vers le SignServer:
 
 `pdffiles = {'filerecievefile': open(args.pdf, 'rb') }`
@@ -554,23 +555,23 @@ parser.add_argument("--password" , help="mot de passe de pdf s'il est protégé"
 args = parser.parse_args()`
 
 Si le pdf n'est pas protégé on aura pas besoin de password:
-
-`if [args.password]:
+</pre>
+if [args.password]:
 
 	password = args.password
  
 else:
 
 	password = ""
- `
+ </pre>
 Ensuite, on définit le Worker : `worker="PDFSigner"`
 
 Puis, on récupère le fichier en binaire:
- 
- `with open(args.pdf, "rb") as file:
+ </pre>
+ with open(args.pdf, "rb") as file:
 
      data = file.read()
- `
+ </pre>
 On définit le client: `client = Client(wsdl=args.wsdl)`.
 
 On récupère le type metadata et on crée un objet de ce type contenant le mot de passe de pdf:
