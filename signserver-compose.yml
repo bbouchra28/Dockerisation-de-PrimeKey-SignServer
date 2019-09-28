@@ -1,0 +1,33 @@
+version: '3.3'
+services:
+  signserver:
+    image: signserver
+    container_name: sign
+    restart: always
+    environment:
+      DATABASE_USERNAME : 'signserver'
+      DATABASE_PASSWORD: 'signserver'
+      DATABASE_NAME: 'signserver'
+      DATABASE_PORT: 3306
+      DATABASE_HOST: '10.5.0.3'
+      APPSRV_HOME: '/opt/wildfly'
+      SIGNSERVER_NODEID: 'node1'
+      RESTOREDB : 'true'
+    ports:
+      - '9005:8080'
+      - '9006:8443'
+      - '8010:8009'
+    volumes:
+      - my-sign:/opt
+    networks:
+      vpcbr:
+        ipv4_address: 10.5.0.2
+volumes:
+  my-sign:
+ 
+networks:
+  vpcbr:
+    driver: bridge
+    ipam:
+     config:
+       - subnet: 10.5.0.0/16
