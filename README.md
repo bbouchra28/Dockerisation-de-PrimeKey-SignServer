@@ -342,7 +342,9 @@ on se met sur /opt et on exécute le script, on donne l'adresse IP du passerelle
 Une fois l'installtion est finie on copie le script d'intialisation, on le transforme en exécutable et on le met en Entrypoint (c'est à dire init.sh sera éxécuté une fois le conteneur est démarré).
 
 `COPY ./init.sh  /opt`
+
 `RUN chmod +x /opt/init.sh`
+
 `ENTRYPOINT "./init.sh"`
 
 ### signserver_install.sh 
@@ -385,7 +387,9 @@ On vérifie les logs pour assurer que WildFly a été correctement démarré :
 Allons à l'intérieur du conteneur pour vérifier que tout marche bien :
 
 `docker exec -it sign bash`
+
 `cd signserver`
+
 `bin/signserver getsatus brief all`
 
 Resultat : `Current version of server is : SignServer CE 5.0.0.Final`
@@ -407,8 +411,11 @@ Tout d'abord on configure un CryotoTokenP12  en utilisant l'exemple de fichier d
 Ensuite on met à jour la propriété KEYSTOREPATH du CryptoToken pour qu'elle pointe vers un magasin de clés PKCS # 12 contenant les clés et le certificat appropriés pour la signature des documents (on utilise le p12 fournit par PrimeKey à des fins de test seulement)
 
 `bin/signserver setproperty 1 KEYSTOREPATH /opt/wildfly/res/test/dss10/dss10_keystore.p12`
+
 `bin/signserver setproperty 1 KEYSTOREPASSWORD foo123`
+
 `bin/signserver setproperty 1 DEFAULTKEY "signer00003"`
+
 `bin/signserver reload 1`
 
 Maintenant qu'on notre p12 en place, on passe à la configuration du Worker PDFSigner:
@@ -430,15 +437,21 @@ Dans cette partie on utilise python3 pour envoyer une requête http contenant un
 On utilise les libs suivantes:
 
 `import requests`
+
 `import argparse`
 
 On définit les flags (`--pdf`, `--host`, `--password`, `--worker`):
 
 `parser = argparse.ArgumentParser()`
+
 `parser.add_argument("--pdf" , help="Le fichier pdf a signer, chemin absolue")`
+
 `parser.add_argument("--host" , help="url vers SignServer")`
+
 `parser.add_argument("--password" , help="mot de passe de pdf s'il est protégé")`
+
 `parser.add_argument("--worker" , help="Id du worker")`
+
 `args = parser.parse_args()`
 
 
@@ -478,14 +491,43 @@ Le script entier est disponible sur ce [lien](https://github.com/bbouchra28/Dock
 
 On essaye le script avec un pdf non protégé:
 
-python3 HttpSignRequest.py --pdf="mypdf.pdf" --host="http://10.5.0.1:9005" --worker=2 
+`python3 HttpSignRequest.py --pdf="mypdf.pdf" --host="http://10.5.0.1:9005" --worker=2 `
 
 Maintenant avec un pdf protégé:
 
-python3 HttpSignRequest.py --pdf="mypdf.pdf" --host="http://10.5.0.1:9005" --worker=2  --password="foo123"
+`python3 HttpSignRequest.py --pdf="mypdf.pdf" --host="http://10.5.0.1:9005" --worker=2  --password="foo123"`
 
 
-### Création d'un client SOAP
+### Création d'un client WS
+
+Aller maintenant on joue avec le service WSDL(Web Services Description Language) de SignServer.
+
+On peut trouver ClientWS?wsdl sur l'url suivant http://<SignServer>/signserver/ClientWSService/ClientWS?wsdl.
+
+On peut utilise le plugin chrome Wizdler pour voir les service disponibles, SignServeur expose deux service ProcessData et ProcessSOD.
+
+On n'est pas intéressé par les e-passeport donc le service qui nous intéresse est ProcessData.
+
+`<Envelope xmlns="http://schemas.xmlsoap.org/soap/envelope/">`
+
+`    <Body>`
+
+`        <processData xmlns="http://clientws.signserver.org/">`
+
+`            <worker xmlns="">[string?]</worker>`
+
+`            <!-- Optional -->`
+
+`            <metadata xmlns=""/>`
+
+`            <data xmlns="">[base64Binary?]</data>`
+
+`        </processData>`
+
+`    </Body>`
+
+`</Envelope>`
+
 
 
 <a name="cnc"></a>
