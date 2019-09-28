@@ -58,6 +58,7 @@ CREATE DATABASE signserver;
 GRANT ALL PRIVILEGES ON signserver.* TO signserver@localhost IDENTIFIED BY 'signserver';
 </pre>
 Afin d'initialiser (création des tables nécessaires pour l'installation et le fonctionnement de SignServer) la base de données, on a besoin des scripts SQL fournit par PrimeKey.
+
 On télécharge SignServer-ce-5.0.0.Final dans /opt/SignServer :
 <pre>
 curl -o /opt/SignServer/signserver-ce-5.0.0.Final-bin.zip -L https://downloads.sourceforge.net/project/signserver/signserver/5.0/signserver-ce-5.0.0.Final-bin.zip?r=https%3A%2F%2Fsourceforge.net%2Fprojects%2Fsignserver%2Ffiles%2Fsignserver%2F5.0%2Fsignserver-ce-5.0.0.Final-bin.zip%2Fdownload&ts=1569520335
@@ -91,9 +92,13 @@ Et on démarre le serveur Wildfly:
 ./bin/standalone.sh
 </pre>
 Dans ce tutorial, on utilise les paires de clés et certificats fournit par PrimeKey SignServer.
+
 Attention! 
+
 Si vous utiliser SignServer en Prod vous devez utiliser vos propre certificats et paires de clés !
+
 On onfigure un HTTPS mutuel, donc on aura besoin d'un keystore et un truststore.
+
 On crée un répertoire Keystore pour stocker le magasin de clés TLS du serveur Web:
 <pre>
 mkdir /opt/SignServer/wildfly-14.0.1.Final/standalone/configuration/keystore/
@@ -126,7 +131,7 @@ On Configure les interfaces en utilisant l'adresse de liaison appropriée, dans 
 /interface=httpspub:add(inet-address="0.0.0.0")
 /interface=httpspriv:add(inet-address="0.0.0.0")
 </pre>
-On configure HTTPS httpspriv le port privé nécessitant le certificat client. (On utilise les paires de clés et certificats fournit par PrimeKey pour tester SignServer, Veuillez changer les mot de passes)
+On configure HTTPS httpspriv le port privé nécessitant le certificat client (On utilise les paires de clés et certificats fournit par PrimeKey pour tester SignServer, Veuillez changer les mot de passes).
 
 <pre>
 /core-service=management/security-realm=SSLRealm:add()
@@ -282,6 +287,7 @@ Dans cette partie on va construire l'image docker de SignServer, on aura besoin 
 ### mariadb-compose.yml
 
 Avant de lancer la construction de l'image docker, on doit avoir une base de données mariadb.
+
 Pour cela on utilise docker-compose pour lancer un conteneur mariadb contenant une base de données nommé signserver avec un utilisateur nommé signserver et son mot de passe est signserver.
 
 De plus on crée un réseau 10.5.0.0/16, on attribue l'adresse 10.5.0.3 au conteneur, et on map le port 3306 sur 9999 de notre machine physique.
@@ -464,8 +470,11 @@ python3 HttpSignRequest.py --pdf="mypdf.pdf" --host="http://10.5.0.1:9005" --wor
 ### Création d'un client WS
 
 Aller maintenant on joue avec le service WSDL(Web Services Description Language) de SignServer.
+
 On peut trouver ClientWS?wsdl sur l'url suivant http://<SignServer>/signserver/ClientWSService/ClientWS?wsdl.
+	
 On peut utilise le plugin chrome Wizdler pour voir les service disponibles, SignServeur expose deux service ProcessData et ProcessSOD.
+
 On n'est pas intéressé par les e-passeport donc le service qui nous intéresse est ProcessData.
 	
 Voici un exemple de requête SOAP pour signer un pdf sur SignServer: [SoapRequest](https://imgur.com/lVjvZbT).
