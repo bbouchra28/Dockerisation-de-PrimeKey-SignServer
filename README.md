@@ -458,8 +458,31 @@ Les paramètres de la requête:
 `                            'processType': 'signDocument'   ,`
 `        }`
 
+Le fichier à signer et l'url vers le SignServer:
 
+`pdffiles = {'filerecievefile': open(args.pdf, 'rb') }`
 
+`url = args.host + '/signserver/process'`
+
+On envoie la requête HTTP:
+
+`r = requests.post(url, data=params, files=pdffiles)`
+
+On récupère le pdf fichier et on le sauvegarde de `out.pdf`:
+
+`file = open("out.pdf", "wb")`
+`file.write(r.content)`
+`file.close()`
+
+Le script entier est disponible sur ce [lien](https://github.com/bbouchra28/Dockerisation-de-PrimeKey-SignServer/blob/master/Clients/HttpSignRequest.py).
+
+On essaye le script avec un pdf non protégé:
+
+python3 HttpSignRequest.py --pdf="mypdf.pdf" --host="http://10.5.0.1:9005" --worker=2 
+
+Maintenant avec un pdf protégé:
+
+python3 HttpSignRequest.py --pdf="mypdf.pdf" --host="http://10.5.0.1:9005" --worker=2  --password="foo123"
 
 
 ### Création d'un client SOAP
