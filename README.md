@@ -280,6 +280,7 @@ On aura besoin de créer les fonctions bash suivantes:
 
 - **init_mariadb()**         : Supprime les tables de SignServer de la base de données.
 - **create_mariadb_index()** : Crée les tables nécessaire pour le fonctionnement de SignServer.
+- **backup_mariadb()**       : Sauvegarde la base de données une fois l'installation est finie
 - **wildfly_killall()**      : Cette fonction est violente, elle sert a arrêter tout les processus de WildFly. 
 - **wildfly_exec()**         : Execute les commande de WildFly.
 - **wildfly_reload()**       : Redémarre WildFly.
