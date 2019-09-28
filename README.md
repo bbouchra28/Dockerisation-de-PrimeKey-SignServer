@@ -280,7 +280,7 @@ On aura besoin de créer les fonctions bash suivantes:
 
 - **init_mariadb()**         : Supprime les tables de SignServer de la base de données.
 - **create_mariadb_index()** : Crée les tables nécessaire pour le fonctionnement de SignServer.
-- **backup_mariadb()**       : Sauvegarde la base de données une fois l'installation est finie
+- **backup_mariadb()**       : Sauvegarde la base de données une fois l'installation est finie.
 - **wildfly_killall()**      : Cette fonction est violente, elle sert a arrêter tout les processus de WildFly. 
 - **wildfly_exec()**         : Execute les commande de WildFly.
 - **wildfly_reload()**       : Redémarre WildFly.
@@ -299,6 +299,74 @@ Pour l'utiliser:
 
 <a name="doc"></a>
 ## Partie III : Dockerisation
+
+Dans cette partie on va construire l'image docker de SignServer, on aura besoin des éléments suivants :
+
+- **mariadb-compose.yml**    : Permet de lancer un conteneur de base de données mariadb.
+- **Dockerfile**             : Ce fichier permet à docker de construire l'image en lisant les instructions écrite dans ce fichier.
+- **signserver_install.sh**  : Le script d'installation automatique utilisé dans la partie principale.
+- **init.sh**                : Ce script permet d'initialiser les conteneurs utilisant l'image SignServer.
+
+
+### mariadb-compose.yml
+
+Avant de lancer la construction de l'image docker, on doit avoir une base de données mariadb.
+Pour cela on utilise docker-compose pour lancer un conteneur mariadb contenant une base de données nommé signserver avec un utilisateur nommé signserver et son mot de passe est signserver.
+
+De plus on crée un réseau 10.5.0.0/16, on attribue l'adresse 10.5.0.3 au conteneur, et on map le port 3306 sur 9999 de notre machine physique.
+
+Enfin nous avons un volume pour persister les données stocker sur mariadb.
+
+### Dockerfile
+
+Pour le processus de dockerisation nous allons baser notre construction sur une image debian 9.7.
+
+Tout d'abord une crée une couche à partir de l'image debian:9.7 disponible sur le docker-hub :
+
+`FROM debian:9.7` 
+
+Ensuite on installe les outils nécessaire pour l'installation (unzip, ant, curl, wget, openjdk-8 ... ):
+
+`RUN apt-get update && apt-get install -y unzip ant ant-optional psmisc bc patch openjdk-8-jdk-headless wget gnupg2 curl mariadb-server`
+
+Puis on copie le fichier d'installation automatique dans /opt:
+
+`COPY ./signserver_install.sh /opt`
+
+on se met sur /opt et on exécute le script, on donne l'adresse IP du passerelle (la machine physique) et le port 9999 :
+
+`WORKDIR /opt`
+
+`RUN bash signserver_install.sh 10.5.0.1 9999 signserver signserver signserver`
+
+Une fois l'installtion est finie on copie le script d'intialisation, on le transforme en exécutable et on le met en Entrypoint (c'est à dire init.sh sera éxécuté une fois le conteneur est démarré).
+
+`COPY ./init.sh  /opt`
+`RUN chmod +x /opt/init.sh`
+`ENTRYPOINT "./init.sh"`
+
+### signserver_install.sh 
+
+On utilise le script d'installation automatique de SignServer pour installer et configurer SignServer et Wildfly sur l'image docker.
+
+
+### init.sh
+
+l'objectif de cet script est d'intialiser le conteneur, il le fait comme suit :
+
+- Récupére les variables d'environnement (nom d'utilisateur de la base, son mot de de passe, adresse IP de la base, le numéro de port, le nom de la base et une variable pour préciser si on la base de données est vide ou elle contient déjà des données).
+
+- Si le conteneur n'a jamais été initialisé, il modifier les paramètres de la base de données dans le fichier standalone.xml (utilisateur, mot de passe, url vers la base).
+
+- Crée les données nécessaire pour le fonctionnement de SignServer (si on utilise une base de données vide).  
+
+- Lance Wildfly et crée un fichier nommé init, ce dernier sert à dire que ce conteneur a été déjà initialisé.
+
+- Si le fichier init existe, le script conclu que le conteneur a été déjà intialisé et démarre WildFly.
+
+## Lancement de conteneur SignServer
+
+
 
 <a name="exp"></a>
 ## Exploitation
