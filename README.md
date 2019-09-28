@@ -442,35 +442,43 @@ On utilise les libs suivantes:
 
 On définit les flags (`--pdf`, `--host`, `--password`, `--worker`):
 
-`parser = argparse.ArgumentParser()`
+`parser = argparse.ArgumentParser()
 
-`parser.add_argument("--pdf" , help="Le fichier pdf a signer, chemin absolue")`
+parser.add_argument("--pdf" , help="Le fichier pdf a signer, chemin absolue")
 
-`parser.add_argument("--host" , help="url vers SignServer")`
+parser.add_argument("--host" , help="url vers SignServer")
 
-`parser.add_argument("--password" , help="mot de passe de pdf s'il est protégé")`
+parser.add_argument("--password" , help="mot de passe de pdf s'il est protégé")
 
-`parser.add_argument("--worker" , help="Id du worker")`
+parser.add_argument("--worker" , help="Id du worker")
 
-`args = parser.parse_args()`
+args = parser.parse_args()`
 
 
 Si le pdf n'est pas protégé password doit contenir une chaine vide:
 
-`if [args.password]:`
-` password = args.password`
-`else:`
-`	password = ""`
+`if [args.password]:
+
+   password = args.password
+
+else:
+
+   password = ""`
 
 Les paramètres de la requête:
 
-`params = {`
-`                            'workerName': 'PDFSigner'       ,`
-`                            'workerId': args.worker         ,`
-`                            'pdfPassword': password         ,`
-`                            'processType': 'signDocument'   ,`
-`        }`
+`params = {
 
+                            'workerName': 'PDFSigner'       ,
+                            
+                            'workerId': args.worker         ,
+                            
+                            'pdfPassword': password         ,
+                            
+                            'processType': 'signDocument'   ,
+                            
+        }
+`
 Le fichier à signer et l'url vers le SignServer:
 
 `pdffiles = {'filerecievefile': open(args.pdf, 'rb') }`
@@ -508,7 +516,7 @@ On peut utilise le plugin chrome Wizdler pour voir les service disponibles, Sign
 
 On n'est pas intéressé par les e-passeport donc le service qui nous intéresse est ProcessData.
 
-
+Voici un exemple de requête SOAP pour signer un pdf.
 
 `<Envelope xmlns="http://schemas.xmlsoap.org/soap/envelope/">
     
@@ -529,6 +537,8 @@ On n'est pas intéressé par les e-passeport donc le service qui nous intéresse
     </Body>
 
 </Envelope>`
+
+#### Python zeep
 
 
 
