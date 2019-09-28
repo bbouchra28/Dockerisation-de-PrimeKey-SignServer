@@ -54,9 +54,9 @@ On se connecte sur MariaDB:
 
 Puis on crée la base de données signserver et on ajoute l'utilisateur signserver@localhost:
 
-`CREATE DATABASE signserver;`
+`CREATE DATABASE signserver;
 
-`GRANT ALL PRIVILEGES ON signserver.* TO signserver@localhost IDENTIFIED BY 'signserver';`
+GRANT ALL PRIVILEGES ON signserver.* TO signserver@localhost IDENTIFIED BY 'signserver';`
 
 Afin d'initialiser (création des tables nécessaires pour l'installation et le fonctionnement de SignServer) la base de données, on a besoin des scripts SQL fournit par PrimeKey.
 
@@ -120,15 +120,15 @@ On démarre la CLI JBOSS (Assurer vous que votre Wildfly est démarré):
 
 On supprime les configurations TLS et HTTP existantes et on autorise la configuration du port 8443:
 
-`/subsystem=undertow/server=default-server/http-listener=default:remove`
+`/subsystem=undertow/server=default-server/http-listener=default:remove
 
-`/subsystem=undertow/server=default-server/https-listener=https:remove`
+/subsystem=undertow/server=default-server/https-listener=https:remove
 
-`/socket-binding-group=standard-sockets/socket-binding=http:remove`
+/socket-binding-group=standard-sockets/socket-binding=http:remove
 
-`/socket-binding-group=standard-sockets/socket-binding=https:remove`
+/socket-binding-group=standard-sockets/socket-binding=https:remove
 
-`:reload`
+:reload`
 
 On Configure les interfaces en utilisant l'adresse de liaison appropriée, dans ce tuto on utilise 0.0.0.0 ce qui rend Wildfly disponible pour tout le monde:
 
