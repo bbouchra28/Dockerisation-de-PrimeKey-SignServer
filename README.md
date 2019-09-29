@@ -34,15 +34,12 @@ Afin d'installer SignServer, il vous faut une machine virtuelle CentOS/Debian su
 <a name="man"></a>
 ## Partie I : Installation Manuelle
 
-### Installation de Java et Apache Ant
+### Installation de Java et Apache Ant et MariaDB
 
-Pour installer Java sur CentOS il suffit d'exécuter la commande suivante:
+Pour installer Java, Apache Ant et MariaDB sur :
 
-`sudo yum install java-1.8.0-openjdk`
-
-Ensuite, on installe Apache Ant :
-
-`sudo yum install ant`
+CentOS : `sudo yum install - y java-1.8.0-openjdk ant mariadb mariadb-server`
+Debian : `sudo get-apt install - y java-1.8.0-openjdk ant mariadb mariadb-server`
 
 ### Installation et préparation de la base de données MariaDB
 
