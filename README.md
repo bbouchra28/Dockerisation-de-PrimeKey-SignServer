@@ -27,13 +27,25 @@ Afin d'installer SignServer, il vous faut une machine virtuelle CentOS/Debian su
 
 <a name="man"></a>
 ## Partie I : Installation Manuelle
+Avant de procéder à l'installation, il faut télécharger et extraire SignServer et Wildfly dans le répertoire `/opt` de préférence.
 
+Pour télécharger SignServer et l'extraire dans /opt/SignServer :
+<pre>
+curl -o /opt/SignServer/signserver-ce-5.0.0.Final-bin.zip -L https://downloads.sourceforge.net/project/signserver/signserver/5.0/signserver-ce-5.0.0.Final-bin.zip?r=https%3A%2F%2Fsourceforge.net%2Fprojects%2Fsignserver%2Ffiles%2Fsignserver%2F5.0%2Fsignserver-ce-5.0.0.Final-bin.zip%2Fdownload&ts=1569520335
+unzip /opt/SignServer/signserver-ce-5.0.0.Final-bin.zip
+</pre>
+
+Pour télécharger Wildfly :
+<pre>
+curl -o /opt/SignServer/wildfly-14.0.1.Final.zip -L https://download.jboss.org/wildfly/14.0.1.Final/wildfly-14.0.1.Final.zip
+unzip /opt/SignServer/wildfly-14.0.1.Final.zip
+cd /opt/SignServer/wildfly-14.0.1.Final
+</pre>
 ### Installation de Java et Apache Ant et MariaDB
 
 Pour installer Java, Apache Ant et MariaDB sur :
 
 CentOS : `sudo yum install - y java-1.8.0-openjdk ant mariadb mariadb-server`
-
 
 Debian : `sudo get-apt install - y java-1.8.0-openjdk ant mariadb mariadb-server`
 
@@ -55,31 +67,14 @@ Puis on crée la base de données signserver et on ajoute l'utilisateur signserv
 CREATE DATABASE signserver;
 GRANT ALL PRIVILEGES ON signserver.* TO signserver@localhost IDENTIFIED BY 'signserver';
 </pre>
-Afin d'initialiser (créer les tables nécessaires pour l'installation et le fonctionnement de SignServer) la base de données, on a besoin des scripts SQL fournit par PrimeKey. Ces scripts sont `create-tables-signserver-mysql.sql` et `create-index-signserver.sql` se trouvent dans le répertoire `signserver-ce-5.0.0.Final/doc/sql-scripts` qu'il faut télécharger et extraire dans le répertoire `/opt`. 
-
-Pour télécharger SignServer et l'extraire dans /opt/SignServer :
-<pre>
-curl -o /opt/SignServer/signserver-ce-5.0.0.Final-bin.zip -L https://downloads.sourceforge.net/project/signserver/signserver/5.0/signserver-ce-5.0.0.Final-bin.zip?r=https%3A%2F%2Fsourceforge.net%2Fprojects%2Fsignserver%2Ffiles%2Fsignserver%2F5.0%2Fsignserver-ce-5.0.0.Final-bin.zip%2Fdownload&ts=1569520335
-unzip /opt/SignServer/signserver-ce-5.0.0.Final-bin.zip
-</pre>
-Maintenant on exécute les deux scripts SQL qui se trouvent dans: 
+Afin d'initialiser (créer les tables nécessaires pour l'installation et le fonctionnement de SignServer) la base de données, on a besoin d'éxecuter les scripts SQL fournit par PrimeKey. Ces scripts sont `create-tables-signserver-mysql.sql` et `create-index-signserver.sql` qui se trouvent dans le répertoire `/opt/SignSrver/signserver-ce-5.0.0.Final/doc/sql-scripts`. 
 <pre>
 /opt/SignServer/signserver-ce-5.0.0.Final/doc/sql-scripts/create-tables-signserver-mysql.sql
 /opt/SignServer/signserver-ce-5.0.0.Final/doc/sql-scripts/create-index-signserver.sql
 </pre>
 
-### Installation et configuration de Wildfly 14
-
-On commence par télécharger Wildfly :
-<pre>
-curl -o /opt/SignServer/wildfly-14.0.1.Final.zip -L https://download.jboss.org/wildfly/14.0.1.Final/wildfly-14.0.1.Final.zip
-</pre>
-Ensuite on unzip l'archive:
-<pre>
-unzip /opt/SignServer/wildfly-14.0.1.Final.zip
-cd /opt/SignServer/wildfly-14.0.1.Final`
-</pre>
-Et on démarre le serveur Wildfly:
+### Configuration de Wildfly 
+Démarrer le serveur Wildfly:
 <pre>
 ./bin/standalone.sh
 </pre>
@@ -87,7 +82,7 @@ Dans ce tutorial, on utilise les paires de clés et certificats fournit par Prim
 
 ⚠️
 
-**Attention** : Si vous utiliser SignServer en Prod vous devez utiliser vos propre certificats et paires de clés ! 
+**Attention** : Si vous utilisez SignServer en Prod vous devez utiliser vos propre certificats et paires de clés ! 
 
 On onfigure un HTTPS mutuel, donc on aura besoin d'un keystore et un truststore.
 
@@ -103,6 +98,7 @@ Puis le magasin de confiance:
 <pre>
 cp /opt/SignServer/signserver-ce-5.0.0.Final/res/test/dss10/dss10_truststore.jks /opt/SignServer/wildfly-14.0.1.Final/standalone/configuration/keystore/truststore.jks
 </pre>
+
 #### Configuration de TLS et HTTP
 
 On démarre la CLI JBOSS (Assurer vous que votre Wildfly est démarré):
