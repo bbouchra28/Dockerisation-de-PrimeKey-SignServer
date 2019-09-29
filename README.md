@@ -1,5 +1,5 @@
 1. [ Introduction. ](#intr)
-2. [ Préparation. ](#prp)
+2. [ Prérequis. ](#prq)
 3. [ Partie I Installation Manuelle. ](#man)
 4. [ Partie II Installation Automatique. ](#aut)
 5. [ Partie III Dockerisation. ](#doc)
@@ -8,9 +8,11 @@
 
 <a name="intr"></a>
 ## Introduction
+SignServer est une application côté serveur qui permet la création de différent types et formats de signatures numériques. Il permet aux organisations de garder une trace de tous les usages des clés de signature en prenant en charge les opérations de l'administrateur et les transactions des clients au niveau d'un fichier et d'une base de données.
 
-<a name="prp"></a>
-## Prépartion
+
+<a name="prq"></a>
+## Prérequis
 
 Prérequis dont on doit disposer avant de réaliser l'installation de PrimeKey SignServer CE:
 
