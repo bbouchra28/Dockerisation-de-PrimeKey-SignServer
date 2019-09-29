@@ -32,10 +32,10 @@ Afin d'installer SignServer, il vous faut une machine virtuelle CentOS/Debian su
 
 Pour installer Java, Apache Ant et MariaDB sur :
 
-CentOS : <pre>sudo yum install - y java-1.8.0-openjdk ant mariadb mariadb-server</pre>
+CentOS : `sudo yum install - y java-1.8.0-openjdk ant mariadb mariadb-server`
 
 
-Debian : <pre>sudo get-apt install - y java-1.8.0-openjdk ant mariadb mariadb-server</pre>
+Debian : `sudo get-apt install - y java-1.8.0-openjdk ant mariadb mariadb-server`
 
 ### Préparation de la base de données MariaDB
 Il faut d'abord démarrer la base de données:
