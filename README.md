@@ -19,18 +19,17 @@ En plus de la signature de documents, SignServer prend également en charge la s
 <a name="prq"></a>
 ## Prérequis
 
-Prérequis dont on doit disposer avant de réaliser l'installation de PrimeKey SignServer CE:
-
-- Une machine virtuelle CentOS/Debian.
+Afin d'installer SignServer, il vous faut une machine virtuelle CentOS/Debian sur laquelle il faut installer: 
+<!--- Une machine virtuelle CentOS/Debian.
 - Docker
-- Docker-compose
-- Wildfly 14.0.1.Final
-- OpenJDK 8 ou Oracle Java 8
-- Apache Ant
-- Base de données MariaDB
-- SignServer CE 5.0.0.Final
+- Docker-compose-->
+- Java : OpenJDK 8 ou Oracle Java 8
+- Application serveur : Wildfly 14.0.1.Final
+- Base de données : MariaDB
+- Outil de déploiement : Apache Ant
+<!---- SignServer CE 5.0.0.Final
 - Répertoire SignServer dans /opt
-- Un compte avec des privilèges Sudo
+- Un compte avec des privilèges Sudo -->
 
 <a name="man"></a>
 ## Partie I : Installation Manuelle
