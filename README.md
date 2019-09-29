@@ -520,7 +520,10 @@ Puis, on récupère le fichier en binaire:
  with open(args.pdf, "rb") as file:
      data = file.read()
  </pre>
-On définit le client: `client = Client(wsdl=args.wsdl)`.
+On définit le client:
+ <pre>
+client = Client(wsdl=args.wsdl)
+ </pre>
 On récupère le type metadata et on crée un objet de ce type contenant le mot de passe de pdf:
 <pre>
 metadata_type = client.get_type('ns0:metadata')
