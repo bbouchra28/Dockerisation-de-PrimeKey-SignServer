@@ -55,22 +55,16 @@ Puis on crée la base de données signserver et on ajoute l'utilisateur signserv
 CREATE DATABASE signserver;
 GRANT ALL PRIVILEGES ON signserver.* TO signserver@localhost IDENTIFIED BY 'signserver';
 </pre>
-Afin d'initialiser (création des tables nécessaires pour l'installation et le fonctionnement de SignServer) la base de données, on a besoin des scripts SQL fournit par PrimeKey.
+Afin d'initialiser (créer les tables nécessaires pour l'installation et le fonctionnement de SignServer) la base de données, on a besoin des scripts SQL fournit par PrimeKey. Ces scripts sont `create-tables-signserver-mysql.sql` et `create-index-signserver.sql` se trouvent dans le répertoire `signserver-ce-5.0.0.Final/doc/sql-scripts` qu'il faut télécharger et extraire dans le répertoire `/opt`. 
 
-On télécharge SignServer-ce-5.0.0.Final dans /opt/SignServer :
+Pour télécharger SignServer et l'extraire dans /opt/SignServer :
 <pre>
 curl -o /opt/SignServer/signserver-ce-5.0.0.Final-bin.zip -L https://downloads.sourceforge.net/project/signserver/signserver/5.0/signserver-ce-5.0.0.Final-bin.zip?r=https%3A%2F%2Fsourceforge.net%2Fprojects%2Fsignserver%2Ffiles%2Fsignserver%2F5.0%2Fsignserver-ce-5.0.0.Final-bin.zip%2Fdownload&ts=1569520335
-</pre>
-Et puis on unzip le fichier :
-<pre>
 unzip /opt/SignServer/signserver-ce-5.0.0.Final-bin.zip
 </pre>
 Maintenant on exécute les deux scripts SQL qui se trouvent dans: 
 <pre>
 /opt/SignServer/signserver-ce-5.0.0.Final/doc/sql-scripts/create-tables-signserver-mysql.sql
-</pre>
-et 
-<pre>
 /opt/SignServer/signserver-ce-5.0.0.Final/doc/sql-scripts/create-index-signserver.sql
 </pre>
 
