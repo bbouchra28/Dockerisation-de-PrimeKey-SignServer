@@ -20,16 +20,10 @@ En plus de la signature de documents, SignServer prend également en charge la s
 ## Prérequis
 
 Afin d'installer SignServer, il vous faut une machine virtuelle CentOS/Debian sur laquelle il faut installer: 
-<!--- Une machine virtuelle CentOS/Debian.
-- Docker
-- Docker-compose-->
 - Java : OpenJDK 8 ou Oracle Java 8
 - Application serveur : Wildfly 14.0.1.Final
 - Base de données : MariaDB
 - Outil de déploiement : Apache Ant
-<!---- SignServer CE 5.0.0.Final
-- Répertoire SignServer dans /opt
-- Un compte avec des privilèges Sudo -->
 
 <a name="man"></a>
 ## Partie I : Installation Manuelle
@@ -38,8 +32,10 @@ Afin d'installer SignServer, il vous faut une machine virtuelle CentOS/Debian su
 
 Pour installer Java, Apache Ant et MariaDB sur :
 
-CentOS : `sudo yum install - y java-1.8.0-openjdk ant mariadb mariadb-server`
-Debian : `sudo get-apt install - y java-1.8.0-openjdk ant mariadb mariadb-server`
+CentOS : <pre>`sudo yum install - y java-1.8.0-openjdk ant mariadb mariadb-server`</pre>
+
+
+Debian : <pre>`sudo get-apt install - y java-1.8.0-openjdk ant mariadb mariadb-server`</pre>
 
 ### Installation et préparation de la base de données MariaDB
 
