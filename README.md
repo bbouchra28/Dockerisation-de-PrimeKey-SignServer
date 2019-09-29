@@ -8,7 +8,11 @@
 
 <a name="intr"></a>
 ## Introduction
-SignServer est une application côté serveur qui permet la création de différent types et formats de signatures numériques. Il permet aux organisations de garder une trace de tous les usages des clés de signature en prenant en charge les opérations de l'administrateur et les transactions des clients au niveau d'un fichier et d'une base de données.
+SignServer est une application côté serveur qui permet la création de différent types et formats de signatures numériques. Il permet aux organisations de garder trace de tous les usages des clés de signature en prenant en charge les opérations de l'administrateur et les transactions des clients au niveau d'un fichier et d'une base de données. 
+
+En plus de la signature de documents, SignServer prend également en charge la signature de passeports électroniques (ICAO eMRTD), la signature de codes tels que Microsoft Authenticode, la signature JAR et l'horodatage (Time-stamping Authority - TSA).
+
+Le principe de fonctionnement de SignServer est simple, un client soumet le document/fichier qu'il veut signer via l'une des interfaces supportés par SignServer, services Web ou l'interface en ligne de commande. Et SignServer reçoit la demande, signe le document/fichier à l'aide de ses clés et le retourne au client.
 
 
 <a name="prq"></a>
