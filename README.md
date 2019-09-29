@@ -95,10 +95,7 @@ Dans ce tutorial, on utilise les paires de clés et certificats fournit par Prim
 
 ⚠️
 
-| **Attention** : Si vous utiliser SignServer en Prod vous devez utiliser vos propre certificats et paires de clés ! |
-| --- |
-
-
+**Attention** : Si vous utiliser SignServer en Prod vous devez utiliser vos propre certificats et paires de clés ! 
 
 On onfigure un HTTPS mutuel, donc on aura besoin d'un keystore et un truststore.
 
