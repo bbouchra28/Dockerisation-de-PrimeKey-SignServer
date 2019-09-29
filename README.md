@@ -38,14 +38,12 @@ CentOS : `sudo yum install - y java-1.8.0-openjdk ant mariadb mariadb-server`
 Debian : `sudo get-apt install - y java-1.8.0-openjdk ant mariadb mariadb-server`
 
 ### Préparation de la base de données MariaDB
-Il faut d'abord démarrer la base de données:
+Il faut d'abord démarrer MariaDB et s'assurer qu'elle a bien démarré :
 <pre>
 systemctl start mariadb
-</pre>
-Et s'assurer ensuite qu'elle a bien démarré:
-<pre>
 systemctl status mariadb
 </pre>
+
 La prochaine étape consiste à se connecter à MariaDB, créer une base de données, créer un utilisateur et initialiser la base de données.
 
 On se connecte sur MariaDB: 
