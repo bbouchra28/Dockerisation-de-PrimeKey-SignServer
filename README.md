@@ -514,7 +514,10 @@ if [args.password]:
 else:
 	password = ""
 </pre>
-Ensuite, on définit le Worker : `worker="PDFSigner"`
+Ensuite, on définit le Worker : 
+<pre>
+worker="PDFSigner"
+</pre>
 Puis, on récupère le fichier en binaire:
  <pre>
  with open(args.pdf, "rb") as file:
@@ -529,7 +532,10 @@ On récupère le type metadata et on crée un objet de ce type contenant le mot 
 metadata_type = client.get_type('ns0:metadata')
 metadata = metadata_type(password,'pdfPassword')
 </pre>
-On envoie la requete : `result = client.service.processData(worker,metadata,data)`
+On envoie la requete : 
+<pre>
+result = client.service.processData(worker,metadata,data)
+</pre>
 
 Enfin on récupère le resultat:
 <pre>
