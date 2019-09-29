@@ -93,9 +93,10 @@ Et on démarre le serveur Wildfly:
 </pre>
 Dans ce tutorial, on utilise les paires de clés et certificats fournit par PrimeKey SignServer.
 
-Attention! 
+| Attention!: Si vous utiliser SignServer en Prod vous devez utiliser vos propre certificats et paires de clés ! |
+| --- |
 
-Si vous utiliser SignServer en Prod vous devez utiliser vos propre certificats et paires de clés !
+
 
 On onfigure un HTTPS mutuel, donc on aura besoin d'un keystore et un truststore.
 
