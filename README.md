@@ -266,7 +266,7 @@ bash signserver_install.sh $database_host $database_port $database_name $databas
 
 Dans cette partie on va construire l'image docker de SignServer, on aura besoin des éléments suivants :
 
-- **mariadb-compose.yml**    : Permet de lancer un conteneur de base de données mariadb.
+- [**mariadb-compose.yml**](https://raw.githubusercontent.com/bbouchra28/Dockerisation-de-PrimeKey-SignServer/master/mariadb-compose.yml)    : Permet de lancer un conteneur de base de données mariadb.
 - **Dockerfile**             : Ce fichier permet à docker de construire l'image en lisant les instructions écrite dans ce fichier.
 - **signserver_install.sh**  : Le script d'installation automatique utilisé dans la partie principale.
 - **init.sh**                : Ce script permet d'initialiser les conteneurs utilisant l'image SignServer.
