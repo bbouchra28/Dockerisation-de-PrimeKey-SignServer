@@ -6,7 +6,7 @@
 4. [ Partie II Installation Automatique. ](#aut)
 5. [ Partie III Dockerisation. ](#doc)
 6. [ Exploitation. ](#exp)
-7. [ Conclusion. ](#cnc)
+
 
 <a name="intr"></a>
 ## Introduction
@@ -548,6 +548,6 @@ Maintenant avec un pdf protégé:
 python3 SignServerWSClient.py --pdf=myprotectedpdf.pdf --password=foo123 --wsdl="http://10.5.0.1:9005/signserver/ClientWSService/ClientWS?wsdl"
 </pre>
 <a name="cnc"></a>
-## Conclusion
+
 
 
