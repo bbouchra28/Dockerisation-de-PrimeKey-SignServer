@@ -8,7 +8,7 @@
 6. [ Exploitation. ](#exp)
 
 
-<a name="intr"></a>
+<a name="r"></a>
 ## Introduction
 SignServer est une application côté serveur qui permet la création de différent types et formats de signatures numériques. Il permet aux organisations de garder trace de tous les usages des clés de signature en prenant en charge les opérations de l'administrateur et les transactions des clients au niveau d'un fichier et d'une base de données. 
 
@@ -319,7 +319,7 @@ On utilise le script d'installation automatique de SignServer pour installer et 
 
 ### init.sh
 
-L'objectif de ce script est d'intialiser le conteneur, il le fait comme suit :
+L'objectif de ce script est d'initialiser le conteneur, il le fait comme suit :
 
 - Récupérer les variables d'environnement (nom d'utilisateur de la base, son mot de de passe, adresse IP de la base, le numéro de port, le nom de la base et une variable pour préciser si la base de données est vide ou si elle contient déjà des données).
 
@@ -329,11 +329,11 @@ L'objectif de ce script est d'intialiser le conteneur, il le fait comme suit :
 
 - Lancer Wildfly et créer un fichier nommé init, ce dernier sert à dire que ce conteneur a été déjà initialisé.
 
-- Si le fichier init existe, le script conclu que le conteneur a été déjà intialisé et démarre WildFly.
+- Si le fichier init existe, le script conclu que le conteneur a été déjà initialisé et démarre WildFly.
 
 ## Lancement de conteneur SignServer
 
-Une fois la construction de l'image est fini, on peut maintenant l'utiliser pour lancer des conteneurs SignServer.
+Une fois la construction de l'image est finie, on peut maintenant l'utiliser pour lancer des conteneurs SignServer.
 
 Le fichier [signserver-compose.yml](https://github.com/bbouchra28/Dockerisation-de-PrimeKey-SignServer/blob/master/signserver-compose.yml) permet de lancer un conteneur SignServer sur l'adresse IP 10.5.0.3 avec les variables d'environnement nécessaires.
 
@@ -355,7 +355,7 @@ docker exec -it sign bash
 cd signserver
 bin/signserver getsatus brief all
 </pre>
-Resultat : `Current version of server is : SignServer CE 5.0.0.Final`
+Résultat : `Current version of server is : SignServer CE 5.0.0.Final`
 
 
 <a name="exp"></a>
@@ -363,7 +363,7 @@ Resultat : `Current version of server is : SignServer CE 5.0.0.Final`
 
 ### Configuration d'un Worker PDFSigner
 
-On se met à l'interieur du conteneur SignServer:
+On se met à l'intérieur du conteneur SignServer:
 <pre>
 docker exec -it sign bash
 </pre>
@@ -460,7 +460,7 @@ Aller maintenant on joue avec le service WSDL(Web Services Description Language)
 
 On peut trouver ClientWS?wsdl sur l'url suivant http://<SignServer>/signserver/ClientWSService/ClientWS?wsdl.
 	
-On peut utilise le plugin chrome Wizdler pour voir les service disponibles, SignServeur expose deux service ProcessData et ProcessSOD.
+On peut utiliser le plugin chrome Wizdler pour voir les service disponibles, SignServeur expose deux service ProcessData et ProcessSOD.
 
 On n'est pas intéressé par les e-passeport donc le service qui nous intéresse est ProcessData.
 	
@@ -471,7 +471,7 @@ Voici un exemple de requête SOAP pour signer un pdf sur SignServer: [SoapReques
 
 Afin d'automatiser l'envoie des requête SOAP, on utilise la librarie python-zeep pour créer un script d'automatisation.
 
-On utilise les libraries suivantes:
+On utilise les librairies suivantes:
 <pre>
 from zeep import Client
 import argparse
@@ -485,7 +485,7 @@ Si vous n'avez pas pip3 :
 <pre>
 apt install python3-pip
 </pre>
-Ensuite on met les flags nécessaire:
+Ensuite on met les flags nécessaires :
 <pre>
 parser = argparse.ArgumentParser() 
 parser.add_argument("--pdf" , help="Le fichier pdf a signer, chemin absolue")
@@ -494,7 +494,7 @@ parser.add_argument("--password" , help="mot de passe de pdf s'il est protégé"
 
 args = parser.parse_args()
 </pre>
-Si le pdf n'est pas protégé on aura pas besoin de password:
+Si le pdf n'est pas protégé on n'aura pas besoin de password:
 <pre>
 if [args.password]:
 	password = args.password
@@ -519,12 +519,12 @@ On récupère le type metadata et on crée un objet de ce type contenant le mot 
 metadata_type = client.get_type('ns0:metadata')
 metadata = metadata_type(password,'pdfPassword')
 </pre>
-On envoie la requete : 
+On envoie la requête : 
 <pre>
 result = client.service.processData(worker,metadata,data)
 </pre>
 
-Enfin on récupère le resultat:
+Enfin on récupère le résultat:
 <pre>
 print("Archive ID: ", result.archiveId)
 print("Metadata :", result.metadata)
