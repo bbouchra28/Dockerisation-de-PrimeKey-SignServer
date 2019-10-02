@@ -209,29 +209,28 @@ data-source add --name=signserverds --driver-name="mariadb-java-client.jar" --co
 </pre>
 ### Installation de SignServer
 
-Dans cette étape on installe SignServer CE, on commence par la définition des variables d'environnement de notre bash shell.
+Pour installer SignServer CE, il faut qu'on définit les variables d'environnement `APPSRV_HOME` et `SIGNSERVER_NODEID` :
 <pre>
 export APPSRV_HOME=/opt/SignServer/wildfly-14.0.1.Final
 export SIGNSERVER_NODEID=node1
 </pre>
 
-Puis on prépare les fichiers de configuration:
+Ensuite, on prépare les fichiers de configuration. Pour notre installation, on va utiliser la configuration par défaut fournie par PrimeKey (La configuration peut être modifié selon vos besoins) :
 <pre>
 cd /opt/SignServer/signserver-ce-5.0.0.Final
-</pre>
-Pour ce tuto, on va utiliser la configuration par défaut fournit par PrimeKey (vous pouvez modifier la configuration selon vos besoins).
-<pre>
 cp conf/server_deploy.properties.sample conf/signserver_deploy.properties
 </pre>
-On déploie le SignServer sur le serveur WildFly
+
+Dans l'étape suivante, on déploie SignServer sur le serveur WildFly :
 <pre>
 bin/ant deploy
 </pre>
-On vérifier que signserver.ear.deployed
+On doit vérifier que le serveur d'application Wildfly fonctionne et que SignServer a été correctement déployé :
 <pre>
 ls /opt/wildfly/standalone/deployments | grep signserver.ear*
 </pre>
-Enfin on test si SignServer a été déployer correctement:
+
+La dernière étape consiste à vérifier que l'installation de SignServer a réussi en testant l'accès au serveur et en affichant la version déployée :
 <pre>
 bin/signserver getstatus brief all
 Current version of server is: SignServer CE 5.0.0`
