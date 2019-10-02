@@ -12,14 +12,14 @@
 ## Introduction
 SignServer est une application côté serveur qui permet la création de différent types et formats de signatures numériques. Il permet aux organisations de garder trace de tous les usages des clés de signature en prenant en charge les opérations de l'administrateur et les transactions des clients au niveau d'un fichier et d'une base de données. 
 
-Le principe de fonctionnement de SignServer est simple, un client soumet le document/fichier qu'il veut signer via l'une des interfaces supportés par SignServer, services Web ou l'interface en ligne de commande. Et SignServer reçoit la demande, signe le document/fichier à l'aide de ses clés et le retourne au client.
+Le principe de fonctionnement de SignServer est simple, un client soumet le document/fichier qu'il veut signer via l'une des interfaces supportées par SignServer, services Web ou l'interface en ligne de commande. Et SignServer reçoit la demande, signe le document/fichier à l'aide de ses clés et le retourne au client.
 
 En plus de la signature de documents, SignServer prend également en charge la signature de passeports électroniques (ICAO eMRTD), la signature de codes tels que Microsoft Authenticode, la signature JAR et l'horodatage (Time-stamping Authority - TSA).
 
 <a name="prq"></a>
 ## Prérequis
 
-Afin d'installer SignServer, il vous faut une machine virtuelle CentOS/Debian sur laquelle il faut installer: 
+Afin d'installer SignServer, il vous faut une machine virtuelle CentOS/Debian sur laquelle il faut installer : 
 - Java : OpenJDK 8 ou Oracle Java 8
 - Application serveur : Wildfly 14.0.1.Final
 - Base de données : MariaDB
@@ -84,7 +84,7 @@ Dans ce tutorial, on utilise les paires de clés et certificats fournit par Prim
 
 **Attention** : Si vous utilisez SignServer en Prod vous devez utiliser vos propre certificats et paires de clés ! 
 
-On onfigure un HTTPS mutuel, donc on aura besoin d'un keystore et un truststore.
+On configure un HTTPS mutuel, donc on aura besoin d'un keystore et un truststore.
 
 On crée un répertoire Keystore pour stocker le magasin de clés TLS du serveur Web:
 <pre>
@@ -119,7 +119,7 @@ On Configure les interfaces en utilisant l'adresse de liaison appropriée, dans 
 /interface=httpspub:add(inet-address="0.0.0.0")
 /interface=httpspriv:add(inet-address="0.0.0.0")
 </pre>
-On configure HTTPS httpspriv le port privé nécessitant le certificat client (On utilise les paires de clés et certificats fournit par PrimeKey pour tester SignServer, Veuillez changer les mot de passes).
+On configure HTTPS httpspriv le port privé nécessitant le certificat client (On utilise les paires de clés et certificats fournit par PrimeKey pour tester SignServer, Veuillez changer les mots de passe).
 
 <pre>
 /core-service=management/security-realm=SSLRealm:add()
@@ -243,10 +243,10 @@ Maintenant qu'on a installé SignServer manuellement passons à l'étape suivant
 On aura besoin de créer les fonctions bash suivantes:
 
 - **init_mariadb()**         : Supprime les tables de SignServer de la base de données.
-- **create_mariadb_index()** : Crée les tables nécessaire pour le fonctionnement de SignServer.
+- **create_mariadb_index()** : Crée les tables nécessaires pour le fonctionnement de SignServer.
 - **backup_mariadb()**       : Sauvegarde la base de données une fois l'installation est finie.
-- **wildfly_killall()**      : Cette fonction est violente, elle sert a arrêter tout les processus de WildFly. 
-- **wildfly_exec()**         : Execute les commande de WildFly.
+- **wildfly_killall()**      : Cette fonction est violente, elle sert à arrêter tous les processus de WildFly. 
+- **wildfly_exec()**         : Execute les commandes de WildFly.
 - **wildfly_reload()**       : Redémarre WildFly.
 - **wildfly_check()**        : Vérifie si WildFly est démarré correctement.
 - **wildfly_keystore()**     : Créer le répertoire Keystore et copie dedans le keystore.jks et le magasin de confiance truststore.jks.
@@ -319,15 +319,15 @@ On utilise le script d'installation automatique de SignServer pour installer et 
 
 ### init.sh
 
-l'objectif de cet script est d'intialiser le conteneur, il le fait comme suit :
+L'objectif de ce script est d'intialiser le conteneur, il le fait comme suit :
 
-- Récupére les variables d'environnement (nom d'utilisateur de la base, son mot de de passe, adresse IP de la base, le numéro de port, le nom de la base et une variable pour préciser si on la base de données est vide ou elle contient déjà des données).
+- Récupérer les variables d'environnement (nom d'utilisateur de la base, son mot de de passe, adresse IP de la base, le numéro de port, le nom de la base et une variable pour préciser si la base de données est vide ou si elle contient déjà des données).
 
-- Si le conteneur n'a jamais été initialisé, il modifier les paramètres de la base de données dans le fichier standalone.xml (utilisateur, mot de passe, url vers la base).
+- Si le conteneur n'a jamais été initialisé, il modifie les paramètres de la base de données dans le fichier standalone.xml (utilisateur, mot de passe, url vers la base).
 
-- Crée les données nécessaire pour le fonctionnement de SignServer (si on utilise une base de données vide).  
+- Créer les données nécessaires pour le fonctionnement de SignServer (si on utilise une base de données vide).  
 
-- Lance Wildfly et crée un fichier nommé init, ce dernier sert à dire que ce conteneur a été déjà initialisé.
+- Lancer Wildfly et créer un fichier nommé init, ce dernier sert à dire que ce conteneur a été déjà initialisé.
 
 - Si le fichier init existe, le script conclu que le conteneur a été déjà intialisé et démarre WildFly.
 
